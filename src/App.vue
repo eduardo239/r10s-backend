@@ -7,35 +7,26 @@
       <!--  -->
       <n-menu :options="menuOptions" mode="horizontal" />
       <!--  -->
-      <nav style="display: flex; gap: 12px">
-        <router-link to="/admin/add-course">add</router-link>
-        <router-link to="/admin/all-courses">all</router-link>
-
-        <router-link to="/">home</router-link>
-        <div v-if="!user.user" style="display: flex; gap: 12px">
-          <router-link to="/sign-in">login</router-link>
-          <router-link to="/sign-up">registrar</router-link>
-        </div>
-        <router-link to="/courses">cursos</router-link>
-        <div v-if="!!user.user" style="display: flex; gap: 12px">
-          <router-link to="/profile"
-            >profile : @{{ user.user.name }}</router-link
-          >
-          <router-link @click="user.logout" to="/">sair</router-link>
-        </div>
-      </nav>
-      <router-view /> </n-layout
-  ></n-config-provider>
+      <router-view />
+    </n-layout>
+  </n-config-provider>
 </template>
 
 <script>
+import { ref } from 'vue';
+import { RouterLink } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import { useCourseStore } from '@/stores/course';
 import { defineComponent, h } from 'vue';
-import { ref } from 'vue';
-import { RouterLink } from 'vue-router';
+import {
+  Home,
+  Login,
+  Catalog,
+  Warning,
+  User,
+  CloudLogging,
+} from '@vicons/carbon';
 import { darkTheme, NIcon, NLayout, NH3, NText } from 'naive-ui';
-import { Home, Login, Catalog, Warning, User } from '@vicons/carbon';
 
 function renderIcon(icon) {
   return () => h(NIcon, null, { default: () => h(icon) });
@@ -55,6 +46,20 @@ const menuOptions = [
       ),
     key: 'go-back-home',
     icon: renderIcon(Home),
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: {
+            path: '/courses',
+          },
+        },
+        { default: () => 'Cursos' }
+      ),
+    key: 'go-courses',
+    icon: renderIcon(CloudLogging),
   },
   {
     label: () =>
@@ -107,7 +112,7 @@ const menuOptions = [
             path: '/admin/add-course',
           },
         },
-        { default: () => 'Adm Add Curso' }
+        { default: () => 'A.Add Curso' }
       ),
     key: 'go-to-admin-add',
     icon: renderIcon(Warning),
@@ -121,7 +126,7 @@ const menuOptions = [
             path: '/admin/all-courses',
           },
         },
-        { default: () => 'Adm All Courses' }
+        { default: () => 'A.All Courses' }
       ),
     key: 'go-to-admin-add',
     icon: renderIcon(Warning),

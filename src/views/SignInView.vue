@@ -1,8 +1,7 @@
 <template>
-  <n-h2>login</n-h2>
-
   <n-grid x-gap="12" cols="1">
     <n-gi>
+      <n-h2>login</n-h2>
       <n-space justify="center">
         <n-form
           class="form-container"
