@@ -1,9 +1,13 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <nav style="display: flex; gap: 12px">
+    <router-link to="/">home</router-link>
+    <router-link to="/sign-in">login</router-link>
+    <router-link to="/sign-up">registrar</router-link>
+    <router-link to="/all-courses">cursos</router-link>
+    <router-link to="/profile">profile</router-link>
+    <router-link to="/add-course">add</router-link>
   </nav>
-  <router-view/>
+  <router-view />
 </template>
 
 <style>

@@ -1,25 +1,53 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '../views/HomeView.vue';
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
-]
+    path: '/sign-in',
+    name: 'sign-in',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/SignInView.vue'),
+  },
+  {
+    path: '/sign-up',
+    name: 'sign-up',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/SignUpView.vue'),
+  },
+  {
+    path: '/all-courses',
+    name: 'all-courses',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/Courses/AllCourses.vue'),
+  },
+  {
+    path: '/course/:courseId',
+    name: 'course-by-id',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/Courses/CourseById.vue'),
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/User/UserProfile.vue'),
+  },
+  {
+    path: '/add-course',
+    name: 'add-course',
+    component: () =>
+      import(/* webpackChunkName: "about" */ '../views/Admin/AddCourse.vue'),
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
