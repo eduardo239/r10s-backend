@@ -1,26 +1,70 @@
 <template>
-  <div>
-    <h1>login</h1>
+  <n-h2>login</n-h2>
 
-    <!--  -->
-    <form @submit.prevent="() => user.signIn(formRef)">
-      <input type="text" placeholder="email" v-model="formRef.email" />
-      <input type="password" placeholder="pass" v-model="formRef.password" />
-      <button type="submit">entrar</button>
-    </form>
-  </div>
+  <n-grid x-gap="12" cols="1">
+    <n-gi>
+      <n-space justify="center">
+        <n-form
+          class="form-container"
+          ref="formRef"
+          :model="model"
+          size="medium"
+          label-placement="top"
+        >
+          <n-grid x-gap="12" :cols="1">
+            <n-form-item-gi label="Email" path="email">
+              <n-input v-model:value="model.email" placeholder="Input" />
+            </n-form-item-gi>
+
+            <n-form-item-gi label="Senha" path="password">
+              <n-input v-model:value="model.password" placeholder="Input" />
+            </n-form-item-gi>
+
+            <n-gi>
+              <n-button type="primary" @click="signIn(model)">
+                Entrar
+              </n-button>
+            </n-gi>
+          </n-grid>
+        </n-form>
+      </n-space>
+    </n-gi>
+  </n-grid>
 </template>
 
 <script>
-import { useUserStore } from '@/stores/user';
 import { ref } from 'vue';
+import { mapActions } from 'pinia';
+import { useUserStore } from '@/stores/user';
+import { NForm, NButton, NH2, NGi, NGrid, NSpace } from 'naive-ui';
 
 export default {
+  components: { NForm, NButton, NH2, NGi, NGrid, NSpace },
   setup() {
-    const formRef = ref({});
+    const formRef = ref(null);
     const user = useUserStore();
-    return { user, formRef };
+    return {
+      user,
+      formRef,
+      model: ref({
+        email: '1',
+        password: '1',
+      }),
+    };
+  },
+  methods: {
+    ...mapActions(useUserStore, ['signIn']),
   },
   computed: {},
 };
 </script>
+
+<!--   
+  <n-grid x-gap='12' cols='1'>
+    <n-gi>
+      <n-space justify='center'>
+        
+      </n-space>
+    </n-gi>
+  </n-grid>
+ -->

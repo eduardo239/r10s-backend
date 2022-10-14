@@ -1,0 +1,5 @@
+.form-container{
+    width: 20rem;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+}

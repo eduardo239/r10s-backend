@@ -2,11 +2,10 @@
   <div>
     <h1>registrar</h1>
     <!--  -->
-    <form @submit.prevent="() => user.signUp(formRef)">
+    <form @submit.prevent="signUp(formRef)">
       <input type="text" placeholder="name" v-model="formRef.name" />
       <input type="text" placeholder="email" v-model="formRef.email" />
       <input type="password" placeholder="pass" v-model="formRef.password" />
-      <input type="password" placeholder="pass2" v-model="formRef.password2" />
       <button type="submit">registrar</button>
     </form>
   </div>
@@ -14,13 +13,18 @@
 
 <script>
 import { useUserStore } from '@/stores/user';
+import { mapActions } from 'pinia';
 import { ref } from 'vue';
 
 export default {
   setup() {
-    const formRef = ref({});
+    const formRef = ref({ answers: [] });
     const user = useUserStore();
+
     return { user, formRef };
+  },
+  methods: {
+    ...mapActions(useUserStore, ['signUp']),
   },
   computed: {},
 };
