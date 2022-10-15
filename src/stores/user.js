@@ -45,7 +45,7 @@ export const useUserStore = defineStore('user', {
       }
     },
     // signup firebase
-    async signUpFirebase({ email, password, name }) {
+    async signUpFirebase({ email, password }) {
       const response = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -53,7 +53,6 @@ export const useUserStore = defineStore('user', {
       );
       if (response) {
         this.user = response.user;
-        response.user.updateProfile({ displayName: name });
       } else {
         throw new Error('Unable to register user');
       }

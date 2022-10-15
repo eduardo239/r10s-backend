@@ -14,12 +14,13 @@
     </n-gi>
   </n-grid>
 </template>
+
 <script>
+import CourseItem from '@/components/card/CourseItem';
 import { defineComponent, ref } from 'vue';
 import { mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { useCourseStore } from '@/stores/course';
-import CourseItem from '@/components/card/CourseItem';
 import { NList, NH2, NText, NSpace, NGi, NGrid } from 'naive-ui';
 
 export default defineComponent({

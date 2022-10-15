@@ -54,7 +54,7 @@ const createColumns = ({ play }) => {
             size: 'small',
             onClick: () => play(row),
           },
-          { default: () => 'Ver' }
+          { default: () => 'Ver mais' }
         );
       },
     },

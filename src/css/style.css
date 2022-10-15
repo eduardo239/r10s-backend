@@ -4,6 +4,14 @@
     box-shadow: var(--shadow);
 }
 
-a {
-    text-decoration: none;
+.alternatives {
+    display: grid;
+    gap: 1rem;
+    margin: 1rem;
+}
+
+.code {
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-size: 1rem;
 }

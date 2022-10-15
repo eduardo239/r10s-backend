@@ -394,6 +394,59 @@
       "language": "2",
       "code": "3",
       "id": 4
+    },
+    {
+      "question": "21323",
+      "answers": [
+        "a",
+        "b",
+        "c"
+      ],
+      "code": "# Python program to find H.C.F of two ",
+      "language": 1,
+      "correct": 1,
+      "id": 5
+    },
+    {
+      "question": "Qual é o retorno?",
+      "answers": [
+        "a",
+        "The H.C.F. is 6",
+        "c",
+        "3",
+        "4"
+      ],
+      "language": 0,
+      "code": "// program to generate fibonacci series up to n terms\n\n// take input from the user\nconst number = parseInt(prompt('Enter the number of terms: '));\nlet n1 = 0, n2 = 1, nextTerm;\n\nconsole.log('Fibonacci Series:');\n\nfor (let i = 1; i <= number; i++) {\n    console.log(n1);\n    nextTerm = n1 + n2;\n    n1 = n2;\n    n2 = nextTerm;\n}",
+      "correct": 1,
+      "id": 6
+    },
+    {
+      "question": "Qual é o teste?",
+      "answers": [
+        "1",
+        "2",
+        "3"
+      ],
+      "language": "JAVASCRIPT",
+      "code": "let test = 'test';",
+      "correct": "2",
+      "id": 7
+    },
+    {
+      "question": "Test CPP",
+      "answers": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "language": "CPP",
+      "code": "#include<iostream>\nusing namespace std;\nint main()\n{\n    char str[30];\n    cout<<\"Enter Your Name: \";\n    cin>>str;\n    cout<<\"\\nHello \"<<str<<\" Sir, This is codescracker.com!\";\n    cout<<endl;\n    return 0;\n}",
+      "correct": "6",
+      "id": 8
     }
   ]
 }

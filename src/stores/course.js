@@ -18,6 +18,7 @@ export const useCourseStore = defineStore('course', {
   },
   actions: {
     async add(data) {
+      console.log(data);
       try {
         const response = await axios.post(`${URL}${ENDPOINT}`, data);
         this.course = response.data;
