@@ -51,7 +51,11 @@
               />
             </n-form-item-gi>
 
-            <n-form-item-gi>
+            <n-form-item-gi
+              :span="12"
+              label="Insert the answer here"
+              path="Answers"
+            >
               <n-dynamic-input
                 v-model:value="model.answers"
                 placeholder="Please type here"
@@ -83,7 +87,6 @@
           </n-grid>
         </n-form>
       </n-space>
-      {{ model }}
     </n-gi>
     <!--  -->
     <n-gi>
@@ -95,9 +98,9 @@
       <div style="overflow: auto">
         <n-space>
           <n-code
-            style="font-size: 0.75rem; font-family: 'IBM Plex Mono', monospace"
+            style="font-size: 0.75rem; font-family: `IBM Plex Mono, monospace`"
             :code="model.code"
-            language="javascript"
+            :language="null"
           />
         </n-space>
       </div>
