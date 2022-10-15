@@ -1,5 +1,12 @@
+import { auth } from '@/firebaseConfig';
 import { defineStore } from 'pinia';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+} from 'firebase/auth';
 import axios from 'axios';
+
 const URL = 'http://localhost:8082/';
 const ENDPOINT = 'users';
 
@@ -7,13 +14,15 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     user: null,
     users: [],
+    //
+    loggedIn: false,
   }),
   getters: {
+    getUser(state) {
+      return state.user;
+    },
     allUsers(state) {
       return state.users.reverse();
-    },
-    totalUserAnswers(state) {
-      if (state.user !== null) return state.user.answers.length;
     },
   },
   actions: {
@@ -23,10 +32,9 @@ export const useUserStore = defineStore('user', {
 
       if (_user.length > 0) {
         this.user = _user[0];
-        // TODO: localStorage
+        this.loggedIn = true;
       } else {
         this.user = null;
-        // TODO: localStorage
       }
     },
     async signUp(data) {
@@ -34,6 +42,45 @@ export const useUserStore = defineStore('user', {
         await axios.post(`${URL}users`, data);
       } catch (error) {
         console.log(error);
+      }
+    },
+    // signup firebase
+    async signUpFirebase({ email, password, name }) {
+      const response = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      if (response) {
+        this.user = response.user;
+        response.user.updateProfile({ displayName: name });
+      } else {
+        throw new Error('Unable to register user');
+      }
+    },
+    // signin firebase
+    async signInFirebase({ email, password }) {
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      if (response) {
+        this.user = response.user;
+        response.user.displayName = email;
+      } else {
+        throw new Error('Login failed');
+      }
+    },
+    // logout firebase
+    async logOutFirebase() {
+      await signOut(auth);
+      this.user = null;
+      this.loggedIn = false;
+    },
+    // fetch user firebase
+    async fetchUserFirebase(user) {
+      this.loggedIn = user !== null;
+      if (user) {
+        this.user = { ...user };
+      } else {
+        this.user = null;
       }
     },
     async getUsers() {
@@ -76,7 +123,7 @@ export const useUserStore = defineStore('user', {
     },
     logout() {
       this.user = null;
-      // TODO: remove localStorage
+      this.loggedIn = false;
     },
     // atividade
     answer(question, answer) {

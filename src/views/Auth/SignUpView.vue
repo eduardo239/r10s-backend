@@ -1,16 +1,3 @@
-<!-- <template>
-  <div>
-    <h1>registrar</h1>
- 
-    <form @submit.prevent="signUp(formRef)">
-      <input type="text" placeholder="name" v-model="formRef.name" />
-      <input type="text" placeholder="email" v-model="formRef.email" />
-      <input type="password" placeholder="pass" v-model="formRef.password" />
-      <button type="submit">registrar</button>
-    </form>
-  </div>
-</template> -->
-
 <template>
   <n-grid x-gap="12" cols="1">
     <n-gi>
@@ -41,7 +28,7 @@
             </n-form-item-gi>
 
             <n-gi>
-              <n-button type="primary" @click="signUp(model)">
+              <n-button type="primary" @click="signUpFirebase(model)">
                 Registrar
               </n-button>
             </n-gi>
@@ -50,6 +37,7 @@
       </n-space>
     </n-gi>
   </n-grid>
+  {{ model }}
 </template>
 
 <script>
@@ -68,15 +56,16 @@ export default {
       user,
       formRef,
       model: ref({
-        name: '1',
+        name: 'nome',
         email: '1@2.com',
-        password: '1',
-        password2: '1',
+        password: '123123',
+        password2: '123123',
       }),
     };
   },
   methods: {
-    ...mapActions(useUserStore, ['signUp']),
+    // remover signUp depois
+    ...mapActions(useUserStore, ['signUp', 'signUpFirebase']),
   },
   computed: {},
 };

@@ -20,7 +20,7 @@
             </n-form-item-gi>
 
             <n-gi>
-              <n-button type="primary" @click="signIn(model)">
+              <n-button type="primary" @click="signInFirebase(model)">
                 Entrar
               </n-button>
             </n-gi>
@@ -46,13 +46,14 @@ export default {
       user,
       formRef,
       model: ref({
-        email: '1',
-        password: '1',
+        email: '1@2.com',
+        password: '123123',
       }),
     };
   },
   methods: {
-    ...mapActions(useUserStore, ['signIn']),
+    // remover sign depois
+    ...mapActions(useUserStore, ['signIn', 'signInFirebase']),
   },
   computed: {},
 };
