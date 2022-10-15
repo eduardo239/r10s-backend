@@ -1,5 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
+// adm
+import AdminHome from '@/views/Admin/AdminHome';
+import AddCourse from '@/views/Admin/AddCourse';
+import AllCourses from '@/views/Admin/AllCourses';
 
 const routes = [
   {
@@ -20,6 +24,21 @@ const routes = [
       import(/* webpackChunkName: "about" */ '../views/Auth/SignUpView.vue'),
   },
   {
+    path: '/admin',
+    name: 'admin-home',
+    component: AdminHome,
+    children: [
+      {
+        path: 'add',
+        component: AddCourse,
+      },
+      {
+        path: 'all',
+        component: AllCourses,
+      },
+    ],
+  },
+  {
     path: '/courses',
     name: 'courses',
     component: () =>
@@ -36,18 +55,6 @@ const routes = [
     name: 'profile',
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/User/UserProfile.vue'),
-  },
-  {
-    path: '/admin/add-course',
-    name: 'add-course',
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/Admin/AddCourse.vue'),
-  },
-  {
-    path: '/admin/all-courses',
-    name: 'all-courses',
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/Admin/AllCourses.vue'),
   },
 ];
 

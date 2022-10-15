@@ -1,38 +1,29 @@
 <template>
-  <div>
-    <h1>cursos</h1>
-
-    <div
-      style="border: 1px dashed #aaa; margin-bottom: 1rem"
-      v-for="course in course.allCourses"
-      :key="course.id"
-    >
-      <h3>{{ course.question }}</h3>
-      <p>
-        <small>{{ course.language }}</small>
-      </p>
-      <p>
-        <code>{{ course.code }}</code>
-      </p>
-      <br />
-      <router-link :to="`/course/${course.id}`">ver mais</router-link>
-    </div>
-  </div>
-
-  <br />
-  <br />
-  <br />
-  <p>
-    {{ course.allCourses }}
-  </p>
+  <n-grid x-gap="12" cols="1">
+    <n-gi>
+      <n-space justify="center">
+        <n-h2 align-text type="success" style="padding: 1rem 1rem 0">
+          <n-text type="success">Cursos</n-text>
+        </n-h2>
+      </n-space>
+      <n-space justify="center">
+        <n-list hoverable v-for="course in course.allCourses" :key="course.id">
+          <course-item :course="course"></course-item>
+        </n-list>
+      </n-space>
+    </n-gi>
+  </n-grid>
 </template>
 <script>
-import { useCourseStore } from '@/stores/course';
-import { useUserStore } from '@/stores/user';
+import { defineComponent, ref } from 'vue';
 import { mapActions } from 'pinia';
-import { ref } from 'vue';
+import { useUserStore } from '@/stores/user';
+import { useCourseStore } from '@/stores/course';
+import CourseItem from '@/components/card/CourseItem';
+import { NList, NH2, NText, NSpace, NGi, NGrid } from 'naive-ui';
 
-export default {
+export default defineComponent({
+  components: { CourseItem, NList, NH2, NText, NSpace, NGi, NGrid },
   setup() {
     const formRef = ref({});
     const course = useCourseStore();
@@ -47,5 +38,5 @@ export default {
   mounted() {
     this.course.getCourses();
   },
-};
+});
 </script>

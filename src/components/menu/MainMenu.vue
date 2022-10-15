@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <n-space justify="center" style="gap: 1px; margin-bottom: 1rem">
     <router-link to="/">
       <n-button type="primary"> Home </n-button>
     </router-link>
@@ -23,16 +23,21 @@
     <n-button v-if="user.loggedIn" type="secondary" @click="logOutFirebase">
       Exit
     </n-button>
-  </nav>
+
+    <router-link v-if="user.loggedIn" :to="`/admin/all`">
+      <n-button type="error"> Admin </n-button>
+    </router-link>
+  </n-space>
 </template>
 
 <script>
-import { NButton } from 'naive-ui';
+import { NButton, NSpace } from 'naive-ui';
 import { mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
+import { defineComponent } from 'vue';
 
-export default {
-  component: { NButton },
+export default defineComponent({
+  component: { NButton, NSpace },
   setup() {
     const user = useUserStore();
 
@@ -41,6 +46,6 @@ export default {
   methods: {
     ...mapActions(useUserStore, ['logOutFirebase']),
   },
-};
+});
 </script>
 <style></style>

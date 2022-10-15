@@ -41,12 +41,12 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { NForm, NButton, NH2, NGi, NGrid, NSpace } from 'naive-ui';
 
-export default {
+export default defineComponent({
   components: { NForm, NButton, NH2, NGi, NGrid, NSpace },
   setup() {
     const formRef = ref({ answers: [] });
@@ -68,5 +68,5 @@ export default {
     ...mapActions(useUserStore, ['signUp', 'signUpFirebase']),
   },
   computed: {},
-};
+});
 </script>

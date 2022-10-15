@@ -1,4 +1,13 @@
 <template>
+  <n-grid x-gap="12" cols="1">
+    <n-gi>
+      <n-space justify="center" v-if="!!course.course">
+        <n-h2 align-text type="success" style="padding: 1rem 1rem 0">
+          <n-text type="success">{{ course.course.question }}</n-text>
+        </n-h2>
+      </n-space>
+    </n-gi>
+  </n-grid>
   <div v-if="!!course.course">
     <h6>course by id {{ $route.params.courseId }}</h6>
     <h2>{{ course.course.question }}</h2>
@@ -35,13 +44,15 @@
   <br />
 </template>
 <script>
+import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useCourseStore } from '@/stores/course';
 import { mapActions } from 'pinia';
-import { ref } from 'vue';
 import { useUserStore } from '@/stores/user';
+import { useCourseStore } from '@/stores/course';
+import { NGrid, NGi, NText, NSpace, NH2 } from 'naive-ui';
 
-export default {
+export default defineComponent({
+  components: { NGrid, NGi, NText, NSpace, NH2 },
   setup() {
     const route = useRouter();
     const formRef = ref();
@@ -68,5 +79,5 @@ export default {
       { immediate: true }
     );
   },
-};
+});
 </script>

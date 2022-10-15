@@ -1,43 +1,162 @@
 <template>
-  <div>
-    <h1>adicionar curso</h1>
+  <n-grid x-gap="12" cols="2">
+    <n-gi>
+      <n-space justify="center">
+        <n-h2 align-text type="success" style="padding: 1rem 1rem 0">
+          <n-text type="success">Course</n-text>
+        </n-h2>
+      </n-space>
+      <n-space justify="center">
+        <n-form
+          class="form-container"
+          ref="formRef"
+          :model="model"
+          size="medium"
+          label-placement="top"
+        >
+          <n-grid x-gap="12" :cols="1">
+            <n-form-item-gi label="Question" path="question">
+              <n-input
+                v-model:value="model.question"
+                placeholder="Textarea"
+                type="textarea"
+                :autosize="{
+                  minRows: 3,
+                  maxRows: 20,
+                }"
+              />
+            </n-form-item-gi>
 
-    <form @submit.prevent="add(formRef)">
-      <input type="text" placeholder="question" v-model="formRef.question" />
-      <input type="text" placeholder="linguagem" v-model="formRef.language" />
-      <textarea placeholder="code" v-model="formRef.code" />
+            <n-form-item-gi
+              :span="12"
+              label="Select the language"
+              path="language"
+            >
+              <n-select
+                v-model:value="model.language"
+                placeholder="Select the Language"
+                :options="languageOptions"
+              />
+            </n-form-item-gi>
 
-      <input type="text" placeholder="alternativas" v-model="answerRef" />
-      <button @click.prevent="() => addToAnwers(answerRef)">
-        adicionar alternativa
-      </button>
+            <n-form-item-gi :span="12" label="Insert the code here" path="code">
+              <n-input
+                v-model:value="model.code"
+                placeholder="Textarea"
+                type="textarea"
+                :autosize="{
+                  minRows: 10,
+                  maxRows: 1000,
+                }"
+              />
+            </n-form-item-gi>
 
-      <button>adicionar</button>
-    </form>
+            <n-form-item-gi>
+              <n-dynamic-input
+                v-model:value="model.answers"
+                placeholder="Please type here"
+                :min="3"
+                :max="6"
+              />
+            </n-form-item-gi>
 
-    {{ answerRef }}
-    <br />
-    <br />
-    <br />
-    <p>curso</p>
-    {{ course.course }}
-  </div>
+            <n-form-item-gi
+              :span="12"
+              label="Select the right answer"
+              path="correct"
+            >
+              <n-select
+                v-model:value="model.correct"
+                placeholder="Select the Language"
+                :options="
+                  model.answers.map((v, i) => ({
+                    label: v,
+                    value: i,
+                  }))
+                "
+              />
+            </n-form-item-gi>
+
+            <n-gi>
+              <n-button type="primary" @click="add(model)"> Salvar </n-button>
+            </n-gi>
+          </n-grid>
+        </n-form>
+      </n-space>
+      {{ model }}
+    </n-gi>
+    <!--  -->
+    <n-gi>
+      <n-space justify="center">
+        <n-h2 align-text type="success" style="padding: 1rem 1rem 0">
+          <n-text type="success">Code</n-text>
+        </n-h2>
+      </n-space>
+      <div style="overflow: auto">
+        <n-space>
+          <n-code
+            style="font-size: 0.75rem; font-family: 'IBM Plex Mono', monospace"
+            :code="model.code"
+            language="javascript"
+          />
+        </n-space>
+      </div>
+    </n-gi>
+  </n-grid>
 </template>
 
 <script>
+import { LANGS } from '@/herlpers/constants';
 import { useCourseStore } from '@/stores/course';
 import { useUserStore } from '@/stores/user';
 import { mapActions } from 'pinia';
-import { ref } from 'vue';
+import { defineComponent, ref } from 'vue';
+import {
+  NGrid,
+  NGi,
+  NH2,
+  NSpace,
+  NForm,
+  NFormItemGi,
+  NInput,
+  NDynamicInput,
+  NCode,
+} from 'naive-ui';
 
-export default {
+export default defineComponent({
+  components: {
+    NGrid,
+    NGi,
+    NH2,
+    NSpace,
+    NForm,
+    NFormItemGi,
+    NInput,
+    NDynamicInput,
+    NCode,
+  },
   setup() {
-    const formRef = ref({ answers: [] });
-    const answerRef = ref(null);
-    const course = useCourseStore();
+    const formRef = ref(null);
     const user = useUserStore();
 
-    return { user, formRef, answerRef, course };
+    // remover
+    const answerRef = ref(null);
+    const course = useCourseStore();
+
+    return {
+      user,
+      formRef,
+      answerRef,
+      course,
+      model: ref({
+        question: '',
+        answers: ['a', 'b', 'c'],
+      }),
+      languageOptions: LANGS.map((v, i) => ({
+        label: v,
+        value: i,
+      })),
+    };
   },
   methods: {
     ...mapActions(useCourseStore, ['add']),
@@ -48,5 +167,5 @@ export default {
     },
   },
   computed: {},
-};
+});
 </script>
