@@ -6,49 +6,77 @@
           <n-text>Test</n-text>
         </n-h2>
       </n-space>
-      <n-space v-if="course.course" style="margin: 0; padding: 0 1rem">
-        <n-h3>
-          <n-text type="success"
-            >#{{ course.course.id }} {{ course.course.question }}</n-text
-          >
-        </n-h3>
-      </n-space>
 
-      <n-space v-if="course.course">
-        <n-code
-          class="code"
-          :code="course.course.code"
-          :language="course.course.language"
-        />
-      </n-space>
+      <n-space style="padding: 2rem" align="start" justify="center" vertical>
+        <n-space v-if="course.course" style="margin: 0">
+          <n-h3>
+            <n-text type="success"
+              >#{{ course.course.id }} {{ course.course.question }}</n-text
+            >
+          </n-h3>
+        </n-space>
 
-      <n-space v-if="course.course" justify="center">
-        <n-h1>
-          <n-text type="error">{{ timer }}</n-text>
-        </n-h1>
-      </n-space>
-
-      <n-space v-if="course.course">
-        <n-radio-group
-          :disabled="!isPlaying"
-          class="alternatives"
-          v-if="!!course.course"
-          v-model:value="answerRef"
-          name="userAnswer"
-        >
-          <n-radio
-            v-for="(course, i) in course.course.answers"
-            :key="i"
-            :value="course"
-            :label="course"
+        <n-space v-if="course.course">
+          <n-code
+            class="code"
+            :code="course.course.code"
+            :language="course.course.language"
           />
-        </n-radio-group>
-      </n-space>
+        </n-space>
 
-      <n-space>
-        <n-button @click="save" type="success" :disabled="disableSaveButton"
-          >Salvar</n-button
+        <n-space
+          v-if="course.course"
+          justify="center"
+          style="
+            padding: 2rem;
+            margin: 2rem 0;
+            width: 2rem;
+            background-color: red;
+          "
         >
+          <n-h1 style="margin-bottom: 0">
+            <n-text type="error">{{ timer }}</n-text>
+          </n-h1>
+        </n-space>
+
+        <n-form
+          class="form-container"
+          ref="formRef"
+          :model="model"
+          size="medium"
+          label-placement="top"
+        >
+          <n-space v-if="course.course">
+            <n-radio-group
+              :disabled="!isPlaying"
+              class="alternatives"
+              v-if="!!course.course"
+              v-model:value="model.userAnswer"
+              name="userAnswer"
+            >
+              <n-radio
+                v-for="(course, i) in course.course.answers"
+                :key="i"
+                :value="course"
+                :label="course"
+              />
+            </n-radio-group>
+          </n-space>
+
+          <n-space>
+            <n-button
+              @click="save"
+              type="success"
+              size="large"
+              :disabled="disableSaveButton"
+              >Salvar</n-button
+            >
+          </n-space>
+        </n-form>
+
+        <n-space style="margin-top: 2rem" justify="center" v-if="!!error">
+          <alert-message :message="error" type="warning"></alert-message>
+        </n-space>
       </n-space>
     </n-gi>
   </n-grid>
@@ -60,12 +88,14 @@ import { useRouter } from 'vue-router';
 import { mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { useCourseStore } from '@/stores/course';
+import AlertMessage from '@/components/ui/AlertMessage';
 import {
   NGrid,
   NGi,
   NText,
   NCode,
   NSpace,
+  NForm,
   NRadioGroup,
   NRadio,
   NH2,
@@ -74,11 +104,13 @@ import {
 
 export default defineComponent({
   components: {
+    AlertMessage,
     NGrid,
     NGi,
     NText,
     NCode,
     NSpace,
+    NForm,
     NRadioGroup,
     NRadio,
     NH2,
@@ -87,6 +119,8 @@ export default defineComponent({
   setup() {
     const route = useRouter();
     const timer = ref(10);
+    const error = ref('');
+    const difficulty = ref(3);
     const disableSaveButton = ref();
     const isPlaying = ref(true);
     const answerRef = ref();
@@ -94,12 +128,17 @@ export default defineComponent({
     const user = useUserStore();
     return {
       route,
+      error,
       course,
       user,
       answerRef,
       disableSaveButton,
       timer,
+      difficulty,
       isPlaying,
+      model: ref({
+        userAnswer: null,
+      }),
     };
   },
   methods: {
@@ -116,9 +155,32 @@ export default defineComponent({
       }
     },
     save() {
-      console.log('saved');
-      this.disableSaveButton = true;
-      this.isPlaying = false;
+      this.error = '';
+      if (this.model.userAnswer) {
+        this.disableSaveButton = true;
+        this.isPlaying = false;
+        // salvar a resposta do usuario
+        const uid = this.user.getUser.uid;
+        const cid = this.$route.params.courseId;
+        const correct = this.course.course.correct === this.model.userAnswer;
+        const answer = this.model.userAnswer;
+        const timeLeft = this.timer;
+        const difficulty = this.difficulty;
+        const points = timeLeft * difficulty;
+        const data = {
+          uid,
+          cid,
+          correct,
+          answer,
+          time: timeLeft,
+          difficulty,
+          points,
+        };
+        this.user.postNewAnswer(data);
+        return;
+      } else {
+        this.error = 'Please select an alternative';
+      }
     },
   },
   computed: {},

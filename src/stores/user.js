@@ -10,6 +10,7 @@ import axios from 'axios';
 const MONGODB_URI = 'http://localhost:3000/api/';
 const LOCALDB_URI = 'http://localhost:8082/';
 const ENDPOINT = 'users';
+const ENDPOINT_UC = 'user-challenges';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -112,7 +113,7 @@ export const useUserStore = defineStore('user', {
     // mongodb user post
     async postNewUserMongoDB(data) {
       try {
-        await axios.post(`${MONGODB_URI}users`, data);
+        await axios.post(`${MONGODB_URI}${ENDPOINT}`, data);
       } catch (error) {
         console.log(error);
       }
@@ -183,13 +184,14 @@ export const useUserStore = defineStore('user', {
       this.error = '';
     },
     // atividade
-    answer(question, answer) {
-      const _user = this.user;
-      const data = { question, answer };
-      console.log(this.user);
-      _user.answers.push(data);
-
-      this.updateUserById(this.user.id, _user);
+    async postNewAnswer(data) {
+      console.log(data);
+      // post new user challenge http://localhost:3000/api/user-challenges
+      try {
+        await axios.post(`${MONGODB_URI}${ENDPOINT_UC}`, data);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 });

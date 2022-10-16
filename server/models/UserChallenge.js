@@ -5,12 +5,28 @@ const UserChallengeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  uid: {
+    type: String,
+    required: true,
+  },
   answer: {
     type: String,
     required: true,
   },
   correct: {
     type: String,
+    required: true,
+  },
+  time: {
+    type: Number,
+    required: true,
+  },
+  difficulty: {
+    type: Number,
+    required: true,
+  },
+  points: {
+    type: Number,
     required: true,
   },
   updated_at: { type: Date, default: Date.now },
