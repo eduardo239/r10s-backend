@@ -21,6 +21,15 @@ router.get('/:id', function (req, res, next) {
   });
 });
 
+/* GET USER BY UID */
+router.get('/uid/:uid', function (req, res, next) {
+  console.log(req.params);
+  User.findOne({ uid: req.params.uid }, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+});
+
 /* SAVE PRODUCT */
 router.post('/', function (req, res, next) {
   User.create(req.body, function (err, post) {

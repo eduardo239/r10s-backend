@@ -1,7 +1,7 @@
 <template>
   <n-grid x-gap="12" cols="1">
     <n-gi>
-      <n-h2>login</n-h2>
+      <title-center type="success" title="Sign Up"></title-center>
       <n-space justify="center">
         <n-form
           class="form-container"
@@ -35,19 +35,23 @@
           </n-grid>
         </n-form>
       </n-space>
+      <n-space style="margin-top: 2rem" justify="center" v-if="!!user.error">
+        <alert-message :message="user.error" type="warning"></alert-message>
+      </n-space>
     </n-gi>
   </n-grid>
-  {{ model }}
 </template>
 
 <script>
 import { defineComponent, ref } from 'vue';
 import { mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
-import { NForm, NButton, NH2, NGi, NGrid, NSpace } from 'naive-ui';
+import { NForm, NButton, NGi, NGrid, NSpace } from 'naive-ui';
+import AlertMessage from '@/components/ui/AlertMessage';
+import TitleCenter from '@/components/ui/TitleCenter';
 
 export default defineComponent({
-  components: { NForm, NButton, NH2, NGi, NGrid, NSpace },
+  components: { TitleCenter, AlertMessage, NForm, NButton, NGi, NGrid, NSpace },
   setup() {
     const formRef = ref({ answers: [] });
     const user = useUserStore();

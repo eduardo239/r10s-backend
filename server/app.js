@@ -9,7 +9,8 @@ const mongoose = require('mongoose');
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
-const courseRouter = require('./routes/course');
+const challengeRouter = require('./routes/challenge');
+const userChallengeRouter = require('./routes/userChallenge');
 
 const app = express();
 
@@ -35,7 +36,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/users', userRouter);
-app.use('/api/courses', courseRouter);
+app.use('/api/challenges', challengeRouter);
+app.use('/api/user-challenges', userChallengeRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

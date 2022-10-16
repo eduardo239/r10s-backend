@@ -1,5 +1,4 @@
 <template>
-  {{ this.$route.params.courseId }}
   <n-grid x-gap="12" cols="1">
     <n-gi>
       <n-space justify="center">
@@ -129,7 +128,7 @@ export default defineComponent({
       () => this.$route.params.courseId,
       () => {
         if (this.$route.params.courseId) {
-          this.course.getCourseById(this.$route.params.courseId);
+          this.course.getChallengeByIdMDB(this.$route.params.courseId);
         }
       },
       { immediate: true }

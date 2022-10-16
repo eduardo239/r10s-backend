@@ -7,13 +7,15 @@ import {
 } from 'firebase/auth';
 import axios from 'axios';
 
-const URL = 'http://localhost:8082/';
+const MONGODB_URI = 'http://localhost:3000/api/';
+const LOCALDB_URI = 'http://localhost:8082/';
 const ENDPOINT = 'users';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
     user: null,
     users: [],
+    error: '',
     //
     loggedIn: false,
   }),
@@ -27,7 +29,7 @@ export const useUserStore = defineStore('user', {
   },
   actions: {
     async signIn(data) {
-      const response = await axios.get(`${URL}${ENDPOINT}`, data);
+      const response = await axios.get(`${LOCALDB_URI}${ENDPOINT}`, data);
       const _user = response.data.filter((user) => user.email === data.email);
 
       if (_user.length > 0) {
@@ -39,32 +41,57 @@ export const useUserStore = defineStore('user', {
     },
     async signUp(data) {
       try {
-        await axios.post(`${URL}users`, data);
+        await axios.post(`${LOCALDB_URI}users`, data);
       } catch (error) {
         console.log(error);
       }
     },
     // signup firebase
-    async signUpFirebase({ email, password }) {
-      const response = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      if (response) {
-        this.user = response.user;
-      } else {
-        throw new Error('Unable to register user');
+    async signUpFirebase({ email, password, name }) {
+      try {
+        const responseFB = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        const uid = responseFB.user.uid;
+
+        try {
+          const _user = {
+            email,
+            name,
+            uid,
+          };
+          const reponseMDB = await this.postNewUserMongoDB(_user);
+          console.log(reponseMDB);
+        } catch (error) {
+          console.error(error);
+        }
+        if (responseFB) {
+          this.user = responseFB.user;
+        } else {
+          throw new Error('Unable to register user');
+        }
+      } catch (error) {
+        this.error = error.message;
       }
     },
     // signin firebase
     async signInFirebase({ email, password }) {
-      const response = await signInWithEmailAndPassword(auth, email, password);
-      if (response) {
-        this.user = response.user;
-        response.user.displayName = email;
-      } else {
-        throw new Error('Login failed');
+      try {
+        const response = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        if (response) {
+          this.user = response.user;
+          response.user.displayName = email;
+        } else {
+          throw new Error('Login failed');
+        }
+      } catch (error) {
+        this.error = error.message;
       }
     },
     // logout firebase
@@ -80,6 +107,14 @@ export const useUserStore = defineStore('user', {
         this.user = { ...user };
       } else {
         this.user = null;
+      }
+    },
+    // mongodb user post
+    async postNewUserMongoDB(data) {
+      try {
+        await axios.post(`${MONGODB_URI}users`, data);
+      } catch (error) {
+        console.log(error);
       }
     },
     // googleSignIn
@@ -100,21 +135,21 @@ export const useUserStore = defineStore('user', {
     },
     async getUsers() {
       try {
-        const response = await axios.get(`${URL}users`);
+        const response = await axios.get(`${LOCALDB_URI}users`);
         this.users = response.data;
       } catch (error) {
         console.log(error);
       }
     },
     async getUserById(id) {
-      const response = await axios.get(`${URL}${ENDPOINT}`);
+      const response = await axios.get(`${LOCALDB_URI}${ENDPOINT}`);
       const _user = response.data.filter((user) => user.id === id);
 
       if (_user.length > 0) {
         this.user = _user[0];
 
         try {
-          const response = await axios.get(`${URL}${ENDPOINT}`);
+          const response = await axios.get(`${LOCALDB_URI}${ENDPOINT}`);
           this.users = response.data;
         } catch (error) {
           console.log(error);
@@ -125,7 +160,10 @@ export const useUserStore = defineStore('user', {
       await this.getUserById(id);
 
       try {
-        const response = await axios.put(`${URL}${ENDPOINT}/${id}`, data);
+        const response = await axios.put(
+          `${LOCALDB_URI}${ENDPOINT}/${id}`,
+          data
+        );
         const status = response.status;
 
         if (status === 200) {
@@ -139,6 +177,10 @@ export const useUserStore = defineStore('user', {
     logout() {
       this.user = null;
       this.loggedIn = false;
+    },
+    // error message
+    closeErrorMessage() {
+      this.error = '';
     },
     // atividade
     answer(question, answer) {

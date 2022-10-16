@@ -1,14 +1,14 @@
 <template>
   <n-list-item style="margin-bottom: 1px">
-    <template #prefix>#{{ course.id }}</template>
+    <!-- <template #prefix>#{{ course._id }}</template> -->
 
     <template #suffix>
-      <router-link :to="`/course/${course.id}`">
+      <router-link :to="`/course/${course._id}`">
         <n-button type="primary">Start Test</n-button>
       </router-link>
     </template>
 
-    <n-thing :title="course.question" :description="'empty'"></n-thing>
+    <n-thing :title="course.question"></n-thing>
   </n-list-item>
 </template>
 

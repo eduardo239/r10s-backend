@@ -3,11 +3,11 @@
     <n-gi>
       <n-space justify="center">
         <n-h2 align-text type="success" style="padding: 1rem 1rem 0">
-          <n-text type="success">Cursos</n-text>
+          <n-text type="success">Todos os Desafios</n-text>
         </n-h2>
       </n-space>
       <n-space justify="center">
-        <n-list hoverable v-for="course in course.allCourses" :key="course.id">
+        <n-list hoverable v-for="course in course.allCourses" :key="course._id">
           <course-item :course="course"></course-item>
         </n-list>
       </n-space>
@@ -37,7 +37,8 @@ export default defineComponent({
   },
   computed: {},
   mounted() {
-    this.course.getCourses();
+    this.course.getChallengesMDB();
+    this.course.resetCourse();
   },
 });
 </script>

@@ -3,15 +3,17 @@ import { defineStore } from 'pinia';
 const URL = 'http://localhost:8082/';
 const ENDPOINT = 'courses';
 const MONGODB_URI = 'http://localhost:3000/api/';
+const MONGODB_ENDPOINT = 'challenges';
 
 export const useCourseStore = defineStore('course', {
   state: () => ({
     courses: [],
     course: null,
+    error: '',
   }),
   getters: {
     allCourses(state) {
-      return state.courses.reverse();
+      return state.courses;
     },
     courseById(state) {
       return state.course;
@@ -62,17 +64,43 @@ export const useCourseStore = defineStore('course', {
     // mongodb
     async addToMongoDB(data) {
       try {
-        const response = await axios.post(`${MONGODB_URI}${ENDPOINT}`, data);
-        console.log(response);
+        const response = await axios.post(
+          `${MONGODB_URI}${MONGODB_ENDPOINT}`,
+          data
+        );
         this.course = response.data;
         const status = response.status;
 
         if (status === 200) {
-          this.getCourses();
+          this.getChallengesMDB();
         }
       } catch (error) {
-        console.log(error);
+        this.error = error.message;
       }
+    },
+    // get all challenges
+    async getChallengesMDB() {
+      try {
+        const response = await axios.get(`${MONGODB_URI}${MONGODB_ENDPOINT}`);
+        this.courses = response.data;
+      } catch (error) {
+        this.error = error.message;
+      }
+    },
+    // get by id
+    async getChallengeByIdMDB(uid) {
+      try {
+        const response = await axios.get(
+          `${MONGODB_URI}${MONGODB_ENDPOINT}/${uid}`
+        );
+        this.course = response.data;
+      } catch (error) {
+        this.error = error.message;
+      }
+    },
+    // reset
+    resetCourse() {
+      this.course = null;
     },
   },
 });
