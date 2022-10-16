@@ -47,7 +47,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.course.getCourses();
+    // this.course.getCourses();
     auth.onAuthStateChanged((user) => {
       if (this?.user) {
         this.fetchUserFirebase(user);

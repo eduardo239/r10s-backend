@@ -1,6 +1,4 @@
 <template>
-  {{ model }}
-
   <n-grid :x-gap="12" :cols="2">
     <n-gi>
       <n-space justify="center">
@@ -78,7 +76,9 @@
             </n-form-item-gi>
 
             <n-gi>
-              <n-button type="primary" @click="add(model)"> Salvar </n-button>
+              <n-button type="primary" @click="addToMongoDB(model)">
+                Salvar
+              </n-button>
             </n-gi>
           </n-grid>
         </n-form>
@@ -145,7 +145,8 @@ export default defineComponent({
     };
   },
   methods: {
-    ...mapActions(useCourseStore, ['add']),
+    // remover add
+    ...mapActions(useCourseStore, ['add', 'addToMongoDB']),
   },
   computed: {},
 });
