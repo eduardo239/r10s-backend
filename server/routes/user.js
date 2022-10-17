@@ -4,16 +4,15 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const User = require('../models/User.js');
 
-/* GET ALL PRODUCTS */
-
+/* GET ALL USERS */
 router.get('/', function (req, res, next) {
   User.find(function (err, products) {
     if (err) return next(err);
     res.json(products);
   });
 });
-/* GET SINGLE PRODUCT BY ID */
 
+/* GET SINGLE USER BY ID */
 router.get('/:id', function (req, res, next) {
   User.findById(req.params.id, function (err, post) {
     if (err) return next(err);
@@ -38,7 +37,7 @@ router.post('/', function (req, res, next) {
   });
 });
 
-/* UPDATE PRODUCT */
+/* UPDATE USER */
 router.put('/:id', function (req, res, next) {
   User.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
@@ -46,7 +45,7 @@ router.put('/:id', function (req, res, next) {
   });
 });
 
-/* DELETE PRODUCT */
+/* DELETE USER */
 router.delete('/:id', function (req, res, next) {
   User.findByIdAndRemove(req.params.id, req.body, function (err, post) {
     if (err) return next(err);

@@ -1,9 +1,7 @@
 <template>
   <n-grid x-gap="12" cols="1">
     <n-gi>
-      <title-center type="success" title="Sign In"></title-center>
-
-      <n-space justify="center">
+      <n-space justify="center" style="margin-bottom: 3rem">
         <n-form
           class="form-container"
           ref="formRef"
@@ -17,11 +15,17 @@
             </n-form-item-gi>
 
             <n-form-item-gi label="Senha" path="password">
-              <n-input v-model:value="model.password" placeholder="Input" />
+              <n-input v-model:value="model.password" type="password" />
             </n-form-item-gi>
 
             <n-gi>
-              <n-button type="primary" @click="signInFirebase(model)">
+              <n-button
+                type="primary"
+                block
+                secondary
+                strong
+                @click="signInFirebase(model)"
+              >
                 Entrar
               </n-button>
             </n-gi>
@@ -42,10 +46,16 @@ import { mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { NForm, NButton, NGi, NGrid, NSpace } from 'naive-ui';
 import AlertMessage from '@/components/ui/AlertMessage';
-import TitleCenter from '@/components/ui/TitleCenter';
 
 export default defineComponent({
-  components: { TitleCenter, AlertMessage, NForm, NButton, NGi, NGrid, NSpace },
+  components: {
+    AlertMessage,
+    NForm,
+    NButton,
+    NGi,
+    NGrid,
+    NSpace,
+  },
   setup() {
     const formRef = ref(null);
     const user = useUserStore();
@@ -65,13 +75,3 @@ export default defineComponent({
   computed: {},
 });
 </script>
-
-<!--   
-  <n-grid x-gap='12' cols='1'>
-    <n-gi>
-      <n-space justify='center'>
-        
-      </n-space>
-    </n-gi>
-  </n-grid>
- -->

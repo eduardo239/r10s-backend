@@ -2,7 +2,7 @@
   <n-grid x-gap="12" cols="1">
     <n-gi>
       <n-space justify="center">
-        <n-h2>home</n-h2>
+        <n-card title="Home"> </n-card>
       </n-space>
     </n-gi>
   </n-grid>
@@ -10,10 +10,10 @@
 
 <script>
 import { useUserStore } from '@/stores/user';
-import { NH2, NGi, NGrid, NSpace } from 'naive-ui';
+import { NGi, NCard, NGrid, NSpace } from 'naive-ui';
 
 export default {
-  components: { NH2, NGi, NGrid, NSpace },
+  components: { NGi, NCard, NGrid, NSpace },
   setup() {
     const user = useUserStore();
     return {
@@ -26,3 +26,13 @@ export default {
   computed: {},
 };
 </script>
+
+<!--   
+  <n-grid x-gap='12' cols='1'>
+    <n-gi>
+      <n-space justify='center'>
+        
+      </n-space>
+    </n-gi>
+  </n-grid>
+ -->

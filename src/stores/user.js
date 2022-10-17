@@ -16,9 +16,9 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     user: null,
     users: [],
-    error: '',
-    //
     loggedIn: false,
+    error: '',
+    userTotalChallenges: 0,
   }),
   getters: {
     getUser(state) {
@@ -44,11 +44,12 @@ export const useUserStore = defineStore('user', {
       try {
         await axios.post(`${LOCALDB_URI}users`, data);
       } catch (error) {
-        console.log(error);
+        this.error = error;
       }
     },
     // signup firebase
     async signUpFirebase({ email, password, name }) {
+      this.error = '';
       try {
         const responseFB = await createUserWithEmailAndPassword(
           auth,
@@ -79,6 +80,7 @@ export const useUserStore = defineStore('user', {
     },
     // signin firebase
     async signInFirebase({ email, password }) {
+      this.error = '';
       try {
         const response = await signInWithEmailAndPassword(
           auth,
@@ -175,6 +177,7 @@ export const useUserStore = defineStore('user', {
         console.log(error);
       }
     },
+    // LOG OUT
     logout() {
       this.user = null;
       this.loggedIn = false;
@@ -185,12 +188,24 @@ export const useUserStore = defineStore('user', {
     },
     // atividade
     async postNewAnswer(data) {
-      console.log(data);
-      // post new user challenge http://localhost:3000/api/user-challenges
       try {
         await axios.post(`${MONGODB_URI}${ENDPOINT_UC}`, data);
       } catch (error) {
-        console.log(error);
+        this.error = error;
+      }
+    },
+    // get total users challenges
+    // http://localhost:3000/api/user-challenges/uid/F88RSMoCYMbpunkfkGmuRTysfHo2
+    async getChallengesByUID(uid) {
+      try {
+        const response = await axios.get(
+          `${MONGODB_URI}${ENDPOINT_UC}/uid/${uid}`
+        );
+        if (response.status === 200) {
+          this.userTotalChallenges = response.data.length;
+        }
+      } catch (error) {
+        this.error = error;
       }
     },
   },

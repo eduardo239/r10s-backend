@@ -1,5 +1,5 @@
 <template>
-  <n-list-item style="margin-bottom: 1px">
+  <n-list-item style="margin-bottom: 1px" class="item-container">
     <!-- <template #prefix>#{{ course._id }}</template> -->
 
     <template #suffix>

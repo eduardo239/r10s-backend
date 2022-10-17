@@ -7,7 +7,7 @@
         </n-h2>
       </n-space>
 
-      <n-space justify="center">
+      <n-space justify="center" span="0 400:1 600:2 800:3">
         <n-form
           class="form-container"
           ref="formRef"

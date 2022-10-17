@@ -12,10 +12,19 @@ router.get('/', function (req, res, next) {
     res.json(products);
   });
 });
-/* GET SINGLE UserChallenge BY ID */
 
+/* GET SINGLE UserChallenge BY ID */
 router.get('/:id', function (req, res, next) {
   UserChallenge.findById(req.params.id, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+});
+
+/* GET SINGLE UserChallenge BY UID */
+router.get('/uid/:uid', function (req, res, next) {
+  console.log(req.params);
+  UserChallenge.find({ uid: req.params.uid }, function (err, post) {
     if (err) return next(err);
     res.json(post);
   });

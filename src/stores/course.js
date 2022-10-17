@@ -13,10 +13,13 @@ export const useCourseStore = defineStore('course', {
   }),
   getters: {
     allCourses(state) {
-      return state.courses;
+      return state.courses.length === 0 ? [] : state.courses.reverse();
     },
     courseById(state) {
       return state.course;
+    },
+    totalChallenges(state) {
+      return state.courses.length;
     },
   },
   actions: {

@@ -12,10 +12,10 @@ const routes = [
     component: HomeView,
   },
   {
-    path: '/sign-in',
-    name: 'sign-in',
+    path: '/auth',
+    name: 'auth',
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/Auth/SignInView.vue'),
+      import(/* webpackChunkName: "about" */ '../views/Auth/AuthHome.vue'),
   },
   {
     path: '/sign-up',

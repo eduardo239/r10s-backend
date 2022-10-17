@@ -1,83 +1,77 @@
 <template>
   <n-grid x-gap="12" cols="1">
     <n-gi>
-      <n-space justify="center">
-        <n-h2 align-text style="padding: 1rem 1rem 0">
-          <n-text>Test</n-text>
-        </n-h2>
-      </n-space>
-
-      <n-space style="padding: 2rem" align="start" justify="center" vertical>
-        <n-space v-if="course.course" style="margin: 0">
-          <n-h3>
-            <n-text type="success"
-              >#{{ course.course.id }} {{ course.course.question }}</n-text
-            >
-          </n-h3>
-        </n-space>
-
-        <n-space v-if="course.course">
-          <n-code
-            class="code"
-            :code="course.course.code"
-            :language="course.course.language"
-          />
-        </n-space>
-
-        <n-space
-          v-if="course.course"
-          justify="center"
-          style="
-            padding: 2rem;
-            margin: 2rem 0;
-            width: 2rem;
-            background-color: red;
-          "
+      <n-card v-if="course.course" title="Challenge">
+        <n-text depth="3" class="challenge__id"
+          >ID # {{ this.$route.params.courseId }}</n-text
         >
-          <n-h1 style="margin-bottom: 0">
-            <n-text type="error">{{ timer }}</n-text>
-          </n-h1>
-        </n-space>
 
-        <n-form
-          class="form-container"
-          ref="formRef"
-          :model="model"
-          size="medium"
-          label-placement="top"
-        >
-          <n-space v-if="course.course">
-            <n-radio-group
-              :disabled="!isPlaying"
-              class="alternatives"
-              v-if="!!course.course"
-              v-model:value="model.userAnswer"
-              name="userAnswer"
-            >
-              <n-radio
-                v-for="(course, i) in course.course.answers"
-                :key="i"
-                :value="course"
-                :label="course"
-              />
-            </n-radio-group>
+        <n-space style="padding: 2rem" align="start" justify="center" vertical>
+          <n-text depth="3"
+            >Programming language # {{ course.course.language }} - Difficulty #
+            {{ course.course?.difficulty ?? 0 }}</n-text
+          >
+          <n-space v-if="course.course" style="margin: 0">
+            <n-h3>
+              <n-text type="success"
+                >#{{ course.course.id }} {{ course.course.question }}</n-text
+              >
+            </n-h3>
           </n-space>
 
-          <n-space>
-            <n-button
-              @click="save"
-              type="success"
-              size="large"
-              :disabled="disableSaveButton"
-              >Salvar</n-button
-            >
+          <n-space v-if="course.course" class="code-container">
+            <n-code
+              class="code"
+              :code="course.course.code"
+              :language="course.course.language"
+            />
           </n-space>
-        </n-form>
 
-        <n-space style="margin-top: 2rem" justify="center" v-if="!!error">
-          <alert-message :message="error" type="warning"></alert-message>
+          <n-space v-if="course.course" justify="center">
+            <n-h1 style="margin-bottom: 0">
+              <n-text type="error">{{ timer }}</n-text>
+            </n-h1>
+          </n-space>
+
+          <n-form
+            ref="formRef"
+            :model="model"
+            size="medium"
+            label-placement="top"
+          >
+            <n-space v-if="course.course">
+              <n-radio-group
+                :disabled="!isPlaying"
+                class="alternatives"
+                v-if="!!course.course"
+                v-model:value="model.userAnswer"
+                name="userAnswer"
+              >
+                <n-radio
+                  v-for="(course, i) in course.course.answers"
+                  :key="i"
+                  :value="course"
+                  :label="course"
+                />
+              </n-radio-group>
+            </n-space>
+
+            <n-space>
+              <n-button
+                @click="save"
+                type="success"
+                size="large"
+                :disabled="disableSaveButton"
+                >Salvar</n-button
+              >
+            </n-space>
+          </n-form>
+
+          <n-space style="margin-top: 2rem" justify="center" v-if="!!error">
+            <alert-message :message="error" type="warning"></alert-message>
+          </n-space>
         </n-space>
-      </n-space>
+      </n-card>
     </n-gi>
   </n-grid>
 </template>
@@ -97,8 +91,8 @@ import {
   NSpace,
   NForm,
   NRadioGroup,
+  NCard,
   NRadio,
-  NH2,
   NH3,
 } from 'naive-ui';
 
@@ -112,8 +106,8 @@ export default defineComponent({
     NSpace,
     NForm,
     NRadioGroup,
+    NCard,
     NRadio,
-    NH2,
     NH3,
   },
   setup() {
@@ -152,6 +146,7 @@ export default defineComponent({
         }, 1000);
       } else {
         this.disableSaveButton = true;
+        this.isPlaying = false;
       }
     },
     save() {
@@ -166,7 +161,7 @@ export default defineComponent({
         const answer = this.model.userAnswer;
         const timeLeft = this.timer;
         const difficulty = this.difficulty;
-        const points = timeLeft * difficulty;
+        const points = correct ? timeLeft * difficulty : 0;
         const data = {
           uid,
           cid,

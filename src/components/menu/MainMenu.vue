@@ -1,31 +1,35 @@
 <template>
-  <n-space justify="center" style="gap: 1px; margin-bottom: 1rem">
-    <router-link to="/">
-      <n-button type="primary"> Home </n-button>
+  <n-space class="main-menu" justify="center">
+    <router-link class="main-menu__button" to="/">
+      <n-button text type="primary"> Home </n-button>
     </router-link>
 
-    <router-link :to="`/courses`">
-      <n-button type="primary"> Courses</n-button>
+    <router-link class="main-menu__button" :to="`/courses`">
+      <n-button text type="primary"> Courses</n-button>
     </router-link>
 
-    <router-link v-if="user.loggedIn" :to="`/profile`">
-      <n-button type="primary"> Profile </n-button>
+    <router-link
+      class="main-menu__button"
+      v-if="user.loggedIn"
+      :to="`/profile`"
+    >
+      <n-button text type="primary"> Profile </n-button>
     </router-link>
 
-    <router-link v-if="!user.loggedIn" :to="`/sign-in`">
-      <n-button type="primary"> Sign In </n-button>
+    <router-link class="main-menu__button" v-if="!user.loggedIn" :to="`/auth`">
+      <n-button text type="primary"> Sign In </n-button>
     </router-link>
 
-    <router-link v-if="!user.loggedIn" :to="`/sign-up`">
-      <n-button type="primary"> Sign Up </n-button>
+    <router-link v-if="user.loggedIn" class="main-menu__button-exit" to="/">
+      <n-button text type="primary" @click="logOutFirebase"> Exit </n-button>
     </router-link>
 
-    <n-button v-if="user.loggedIn" type="secondary" @click="logOutFirebase">
-      Exit
-    </n-button>
-
-    <router-link v-if="user.loggedIn" :to="`/admin/all`">
-      <n-button type="error"> Admin </n-button>
+    <router-link
+      v-if="user.loggedIn"
+      class="main-menu__button"
+      :to="`/admin/all`"
+    >
+      <n-button text type="error"> Admin </n-button>
     </router-link>
   </n-space>
 </template>
