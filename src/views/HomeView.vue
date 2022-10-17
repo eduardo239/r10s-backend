@@ -1,19 +1,17 @@
 <template>
-  <n-grid x-gap="12" cols="1">
-    <n-gi>
-      <n-space justify="center">
-        <n-card title="Home"> </n-card>
-      </n-space>
-    </n-gi>
-  </n-grid>
+  <n-space vertical>
+    <n-layout>
+      <n-card title="Home"> </n-card>
+    </n-layout>
+  </n-space>
 </template>
 
 <script>
 import { useUserStore } from '@/stores/user';
-import { NGi, NCard, NGrid, NSpace } from 'naive-ui';
+import { NCard, NLayout, NSpace } from 'naive-ui';
 
 export default {
-  components: { NGi, NCard, NGrid, NSpace },
+  components: { NCard, NLayout, NSpace },
   setup() {
     const user = useUserStore();
     return {

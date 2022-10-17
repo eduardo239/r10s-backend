@@ -1,8 +1,6 @@
 <template>
-  <n-grid x-gap="12" cols="1">
-    <n-gi>
-      <title-center type="success" title="Login or Register"></title-center>
-
+  <n-space vertical>
+    <n-layout>
       <n-card>
         <n-tabs
           class="card-tabs"
@@ -19,30 +17,28 @@
           </n-tab-pane>
         </n-tabs>
       </n-card>
-    </n-gi>
-  </n-grid>
+    </n-layout>
+  </n-space>
 </template>
 
 <script>
 import { defineComponent, ref } from 'vue';
 import { mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
-import { NTabs, NCard, NTabPane, NGi, NGrid } from 'naive-ui';
+import { NTabs, NCard, NTabPane, NLayout, NSpace } from 'naive-ui';
 
-import TitleCenter from '@/components/ui/TitleCenter';
 import SignIn from '@/views/Auth/SignInView.vue';
 import SignUp from '@/views/Auth/SignUpView.vue';
 
 export default defineComponent({
   components: {
-    TitleCenter,
     SignIn,
     SignUp,
     NTabs,
     NCard,
     NTabPane,
-    NGi,
-    NGrid,
+    NLayout,
+    NSpace,
   },
   setup() {
     const formRef = ref(null);

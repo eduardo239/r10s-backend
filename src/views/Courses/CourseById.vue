@@ -1,6 +1,6 @@
 <template>
-  <n-grid x-gap="12" cols="1">
-    <n-gi>
+  <n-space vertical>
+    <n-layout>
       <n-card v-if="course.course" title="Challenge">
         <n-text depth="3" class="challenge__id"
           >ID # {{ this.$route.params.courseId }}</n-text
@@ -25,6 +25,17 @@
               :code="course.course.code"
               :language="course.course.language"
             />
+          </n-space>
+
+          <n-space
+            style="margin-top: 2rem"
+            justify="center"
+            v-if="!!user.userChallengeAlreadyFinished"
+          >
+            <alert-message
+              message="This challenge has already been accomplished"
+              type="error"
+            ></alert-message>
           </n-space>
 
           <n-space v-if="course.course" justify="center">
@@ -72,8 +83,8 @@
           </n-space>
         </n-space>
       </n-card>
-    </n-gi>
-  </n-grid>
+    </n-layout>
+  </n-space>
 </template>
 
 <script>
@@ -84,11 +95,10 @@ import { useUserStore } from '@/stores/user';
 import { useCourseStore } from '@/stores/course';
 import AlertMessage from '@/components/ui/AlertMessage';
 import {
-  NGrid,
-  NGi,
   NText,
   NCode,
   NSpace,
+  NLayout,
   NForm,
   NRadioGroup,
   NCard,
@@ -99,11 +109,11 @@ import {
 export default defineComponent({
   components: {
     AlertMessage,
-    NGrid,
-    NGi,
+
     NText,
     NCode,
     NSpace,
+    NLayout,
     NForm,
     NRadioGroup,
     NCard,
@@ -115,7 +125,7 @@ export default defineComponent({
     const timer = ref(10);
     const error = ref('');
     const difficulty = ref(3);
-    const disableSaveButton = ref();
+    const disableSaveButton = ref(false);
     const isPlaying = ref(true);
     const answerRef = ref();
     const course = useCourseStore();
@@ -139,7 +149,20 @@ export default defineComponent({
     ...mapActions(useCourseStore, ['courseById']),
     ...mapActions(useUserStore, ['answer']),
     countDowntimer() {
-      if (this.timer > 0 && this.isPlaying) {
+      //verifica se o usuario ja fez este teste
+      if (this.user && this.user.user) {
+        const uid = this.user.user.uid;
+        const cid = this.$route.params.courseId;
+        if ((uid, cid)) {
+          this.user.getChallengesByUIDAndCID(uid, cid);
+        }
+      }
+
+      if (
+        this.timer > 0 &&
+        this.isPlaying &&
+        !this.user.userChallengeAlreadyFinished
+      ) {
         setTimeout(() => {
           this.timer--;
           this.countDowntimer();
@@ -147,6 +170,7 @@ export default defineComponent({
       } else {
         this.disableSaveButton = true;
         this.isPlaying = false;
+        return;
       }
     },
     save() {
@@ -180,6 +204,10 @@ export default defineComponent({
   },
   computed: {},
   mounted() {},
+  unmounted() {
+    this.disableSaveButton = true;
+    this.isPlaying = false;
+  },
   created() {
     this.$watch(
       () => this.$route.params.courseId,
@@ -192,6 +220,7 @@ export default defineComponent({
     );
 
     // timer
+
     this.countDowntimer();
   },
 });

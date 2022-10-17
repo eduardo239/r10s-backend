@@ -1,3 +1,4 @@
+require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
 const cors = require('cors');
@@ -14,12 +15,12 @@ const userChallengeRouter = require('./routes/userChallenge');
 
 const app = express();
 
+const EXPRESS_MONGODB_URI = `mongodb+srv://${process.env.EPXRESS_MONGODB_USER}:${process.env.EXPRESS_MONGODB_PASS}@cluster0.a8wg0.gcp.mongodb.net/r10s?retryWrites=true&w=majority`;
+
 mongoose.Promise = global.Promise;
 
 mongoose
-  .connect(
-    `mongodb+srv://r10s-admin:KYt8GEfYAEDmb5k4@cluster0.a8wg0.gcp.mongodb.net/r10s?retryWrites=true&w=majority`
-  )
+  .connect(EXPRESS_MONGODB_URI)
   .then(() => console.info('connection successful'))
   .catch((err) => console.error(err));
 

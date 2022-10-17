@@ -19,6 +19,7 @@ export const useUserStore = defineStore('user', {
     loggedIn: false,
     error: '',
     userTotalChallenges: 0,
+    userChallengeAlreadyFinished: false,
   }),
   getters: {
     getUser(state) {
@@ -203,6 +204,23 @@ export const useUserStore = defineStore('user', {
         );
         if (response.status === 200) {
           this.userTotalChallenges = response.data.length;
+        }
+      } catch (error) {
+        this.error = error;
+      }
+    },
+    // http://localhost:3000/api/user-challenges/uid/F88RSMoCYMbpunkfkGmuRTysfHo2/cid/634c68cc3ae49021ed610648
+    async getChallengesByUIDAndCID(uid, cid) {
+      try {
+        const response = await axios.get(
+          `${MONGODB_URI}${ENDPOINT_UC}/uid/${uid}/cid/${cid}`
+        );
+        if (response.status === 200) {
+          if (response.data.length > 0) {
+            this.userChallengeAlreadyFinished = true;
+          } else {
+            this.userChallengeAlreadyFinished = false;
+          }
         }
       } catch (error) {
         this.error = error;

@@ -1,6 +1,6 @@
 <template>
-  <n-grid x-gap="12" cols="1">
-    <n-gi>
+  <n-space vertical>
+    <n-layout>
       <n-card title="All Challenges">
         <n-space justify="center" v-if="course.allCourses.length !== 0">
           <n-list
@@ -15,8 +15,8 @@
           <n-spin size="large" />
         </n-space>
       </n-card>
-    </n-gi>
-  </n-grid>
+    </n-layout>
+  </n-space>
 </template>
 
 <script>
@@ -25,10 +25,10 @@ import { defineComponent, ref } from 'vue';
 import { mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { useCourseStore } from '@/stores/course';
-import { NList, NCard, NSpace, NSpin, NGi, NGrid } from 'naive-ui';
+import { NList, NCard, NSpace, NSpin, NLayout } from 'naive-ui';
 
 export default defineComponent({
-  components: { CourseItem, NList, NCard, NSpace, NSpin, NGi, NGrid },
+  components: { CourseItem, NList, NCard, NSpace, NSpin, NLayout },
   setup() {
     const formRef = ref({});
     const course = useCourseStore();

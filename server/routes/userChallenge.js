@@ -21,13 +21,23 @@ router.get('/:id', function (req, res, next) {
   });
 });
 
-/* GET SINGLE UserChallenge BY UID */
+/* GET UserChallenges BY UID */
 router.get('/uid/:uid', function (req, res, next) {
-  console.log(req.params);
   UserChallenge.find({ uid: req.params.uid }, function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
+});
+
+/* GET UserChallenges BY UID and CID */
+router.get('/uid/:uid/cid/:cid', function (req, res, next) {
+  UserChallenge.find(
+    { uid: req.params.uid, cid: req.params.cid },
+    function (err, post) {
+      if (err) return next(err);
+      res.json(post);
+    }
+  );
 });
 
 /* SAVE UserChallenge */

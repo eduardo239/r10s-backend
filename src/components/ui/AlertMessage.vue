@@ -1,14 +1,16 @@
 <template>
-  <n-space vertical :size="12">
-    <!-- <n-alert title="Info Text" type="info" closable>
-      Gee it's good to be back home
-    </n-alert> -->
-    <!-- <n-alert title="Success Text" type="success" closable>
-      Leave it till tomorrow to unpack my case
-    </n-alert> -->
+  <n-space vertical>
+    <n-alert v-if="type === 'info'" title="Info" type="info" closable>
+      {{ message }}
+    </n-alert>
+
+    <n-alert v-if="type === 'success'" title="Success" type="success" closable>
+      {{ message }}
+    </n-alert>
+
     <n-alert
       v-if="type === 'warning'"
-      title="Warning Text"
+      title="Warning"
       type="warning"
       closable
       :on-close="() => closeErrorMessage()"
@@ -17,7 +19,7 @@
     </n-alert>
     <n-alert
       v-if="type === 'error'"
-      title="Error Text"
+      title="Error"
       type="error"
       closable
       :on-close="() => closeErrorMessage()"
