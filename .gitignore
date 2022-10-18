@@ -1,12 +1,9 @@
 .DS_Store
 node_modules
 server/node_modules
-/dist
+# /dist
 
-
-# local env files
-.env.local
-.env.*.local
+TODO.md
 .env
 
 # Log files

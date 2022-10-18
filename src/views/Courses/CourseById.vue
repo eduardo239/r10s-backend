@@ -1,7 +1,14 @@
 <template>
   <n-space vertical>
     <n-layout>
-      <n-card v-if="course.course" title="Challenge">
+      <n-card
+        v-if="course.course"
+        :title="`Challenge ${
+          !!user.userChallengeAlreadyFinished
+            ? '#DONE: This challenge has already been accomplished'
+            : ''
+        }`"
+      >
         <n-text depth="3" class="challenge__id"
           >ID # {{ this.$route.params.courseId }}</n-text
         >
@@ -25,17 +32,6 @@
               :code="course.course.code"
               :language="course.course.language"
             />
-          </n-space>
-
-          <n-space
-            style="margin-top: 2rem"
-            justify="center"
-            v-if="!!user.userChallengeAlreadyFinished"
-          >
-            <alert-message
-              message="This challenge has already been accomplished"
-              type="error"
-            ></alert-message>
           </n-space>
 
           <n-space v-if="course.course" justify="center">
@@ -148,7 +144,8 @@ export default defineComponent({
   methods: {
     ...mapActions(useCourseStore, ['courseById']),
     ...mapActions(useUserStore, ['answer']),
-    countDowntimer() {
+
+    checkCompletedChallenge() {
       //verifica se o usuario ja fez este teste
       if (this.user && this.user.user) {
         const uid = this.user.user.uid;
@@ -157,7 +154,8 @@ export default defineComponent({
           this.user.getChallengesByUIDAndCID(uid, cid);
         }
       }
-
+    },
+    countDowntimer() {
       if (
         this.timer > 0 &&
         this.isPlaying &&
@@ -172,6 +170,7 @@ export default defineComponent({
         this.isPlaying = false;
         return;
       }
+      // TODO: encerrar desafio por falta de tempo
     },
     save() {
       this.error = '';
@@ -220,6 +219,7 @@ export default defineComponent({
     );
 
     // timer
+    this.checkCompletedChallenge();
 
     this.countDowntimer();
   },
