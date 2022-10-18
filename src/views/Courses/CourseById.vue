@@ -59,6 +59,8 @@
                   :key="i"
                   :value="course"
                   :label="course"
+                  size="large"
+                  class="radio-item"
                 />
               </n-radio-group>
             </n-space>

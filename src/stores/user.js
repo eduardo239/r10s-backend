@@ -28,6 +28,9 @@ export const useUserStore = defineStore('user', {
     allUsers(state) {
       return state.users.reverse();
     },
+    isUserLoggedIn(state) {
+      return state.loggedIn;
+    },
   },
   actions: {
     async signIn(data) {
@@ -65,8 +68,7 @@ export const useUserStore = defineStore('user', {
             name,
             uid,
           };
-          const reponseMDB = await this.postNewUserMongoDB(_user);
-          console.log(reponseMDB);
+          await this.postNewUserMongoDB(_user);
         } catch (error) {
           console.error(error);
         }
@@ -97,6 +99,10 @@ export const useUserStore = defineStore('user', {
       } catch (error) {
         this.error = error.message;
       }
+    },
+    // update user
+    async updateUserFirebase() {
+      console.log('todo');
     },
     // logout firebase
     async logOutFirebase() {

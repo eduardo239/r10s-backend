@@ -23,9 +23,10 @@
 
 <script>
 import { defineComponent, ref } from 'vue';
-import { mapActions } from 'pinia';
+import { mapActions, mapState } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { NTabs, NCard, NTabPane, NLayout, NSpace } from 'naive-ui';
+import { useRouter } from 'vue-router';
 
 import SignIn from '@/views/Auth/SignInView.vue';
 import SignUp from '@/views/Auth/SignUpView.vue';
@@ -43,7 +44,10 @@ export default defineComponent({
   setup() {
     const formRef = ref(null);
     const user = useUserStore();
+    const router = useRouter();
+
     return {
+      router,
       user,
       formRef,
       model: ref({
@@ -56,7 +60,14 @@ export default defineComponent({
     // remover sign depois
     ...mapActions(useUserStore, ['signIn', 'signInFirebase']),
   },
-  computed: {},
+  computed: {
+    ...mapState(useUserStore, ['isUserLoggedIn']),
+  },
+  watch: {
+    isUserLoggedIn(newValue) {
+      if (newValue) this.router.push('/');
+    },
+  },
 });
 </script>
 

@@ -1,8 +1,14 @@
 <template>
   <n-config-provider :theme="darkTheme" :hljs="hljs">
-    <n-layout style="min-height: 100vh; max-width: 1000px; margin: 0 auto">
+    <n-layout
+      style="
+        min-height: 100vh;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 1rem;
+      "
+    >
       <main-menu></main-menu>
-
       <router-view />
     </n-layout>
   </n-config-provider>

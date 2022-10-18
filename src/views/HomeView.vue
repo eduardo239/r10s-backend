@@ -1,7 +1,7 @@
 <template>
   <n-space vertical>
     <n-layout>
-      <n-card title="Home"> </n-card>
+      <n-card title="Home"></n-card>
     </n-layout>
   </n-space>
 </template>
@@ -24,13 +24,3 @@ export default {
   computed: {},
 };
 </script>
-
-<!--   
-  <n-grid x-gap='12' cols='1'>
-    <n-gi>
-      <n-space justify='center'>
-        
-      </n-space>
-    </n-gi>
-  </n-grid>
- -->

@@ -5,7 +5,9 @@
 
     --color-primary: #63e2b7;
     --color-dark: #0e0e11;
-    --color-dark2: #1d1d1d;
+    --color-dark2: #272829;
+    --color-light: #ecedf0;
+    --color-light2: #d7d8db;
 
     --font-mono: 'IBM Plex Mono', 'Courier New', Courier, monospace;
 }

@@ -2,8 +2,12 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 // adm
 import AdminHome from '@/views/Admin/AdminHome';
-import AddCourse from '@/views/Admin/AddCourse';
-import AllCourses from '@/views/Admin/AllCourses';
+import AllChallenges from '@/views/Admin/AllChallenges';
+import AddChallenge from '@/views/Admin/AddChallenge';
+// user
+import UserProfile from '@/views/User/UserProfile';
+import UserEdit from '@/views/User/UserEdit';
+import UserStats from '@/views/User/UserStats';
 
 const routes = [
   {
@@ -30,11 +34,11 @@ const routes = [
     children: [
       {
         path: 'add',
-        component: AddCourse,
+        component: AddChallenge,
       },
       {
         path: 'all',
-        component: AllCourses,
+        component: AllChallenges,
       },
     ],
   },
@@ -53,8 +57,17 @@ const routes = [
   {
     path: '/profile',
     name: 'profile',
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/User/UserProfile.vue'),
+    component: UserProfile,
+    children: [
+      {
+        path: 'edit',
+        component: UserEdit,
+      },
+      {
+        path: ':uid',
+        component: UserStats,
+      },
+    ],
   },
 ];
 

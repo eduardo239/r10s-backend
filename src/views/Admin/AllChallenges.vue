@@ -1,11 +1,7 @@
 <template>
   <n-grid x-gap="12" cols="1">
     <n-gi>
-      <n-space justify="center">
-        <n-h2 align-text type="success" style="padding: 1rem 1rem 0">
-          <n-text type="success">Course</n-text>
-        </n-h2>
-      </n-space>
+      <n-space justify="center"> </n-space>
       <n-data-table
         :columns="columns"
         :data="course.courses"
@@ -17,21 +13,34 @@
 </template>
 
 <script>
-import { defineComponent, h, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { mapActions } from 'pinia';
 import { useCourseStore } from '@/stores/course';
-import { NDataTable, NGrid, NGi, NSpace, NH2, NText, NButton } from 'naive-ui';
-import { useRouter } from 'vue-router';
+import { defineComponent, h, ref } from 'vue';
+import { NDataTable, NGrid, NGi, NSpace, NButton } from 'naive-ui';
 
 const createColumns = ({ play }) => {
   return [
     {
-      title: 'No',
-      key: 'id',
+      title: 'ID',
+      key: '_id',
     },
     {
       title: 'Question',
       key: 'question',
+      render(row) {
+        return h(
+          NButton,
+          {
+            strong: true,
+            round: true,
+            type: 'success',
+            size: 'small',
+            onClick: () => play(row),
+          },
+          { default: () => 'Ver mais' }
+        );
+      },
     },
     {
       title: 'Language',
@@ -80,7 +89,7 @@ const createColumns = ({ play }) => {
 };
 
 export default defineComponent({
-  components: { NDataTable, NGrid, NGi, NSpace, NH2, NText },
+  components: { NDataTable, NGrid, NGi, NSpace },
   setup() {
     const formRef = ref({ answers: [] });
     const answerRef = ref(null);
@@ -100,8 +109,11 @@ export default defineComponent({
     };
   },
   methods: {
-    ...mapActions(useCourseStore, ['remove']),
+    ...mapActions(useCourseStore, ['remove', 'allCourses']),
   },
   computed: {},
+  mounted() {
+    this.course.getChallengesMDB();
+  },
 });
 </script>

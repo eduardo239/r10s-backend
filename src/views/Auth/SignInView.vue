@@ -59,6 +59,7 @@ export default defineComponent({
   setup() {
     const formRef = ref(null);
     const user = useUserStore();
+
     return {
       user,
       formRef,
@@ -69,8 +70,7 @@ export default defineComponent({
     };
   },
   methods: {
-    // remover sign depois
-    ...mapActions(useUserStore, ['signIn', 'signInFirebase']),
+    ...mapActions(useUserStore, ['signInFirebase']),
   },
   computed: {},
 });

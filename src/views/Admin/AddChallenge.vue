@@ -1,12 +1,6 @@
 <template>
   <n-grid :x-gap="12" :cols="2">
     <n-gi>
-      <n-space justify="center">
-        <n-h2 align-text type="success" style="padding: 1rem 1rem 0">
-          <n-text type="success">Course</n-text>
-        </n-h2>
-      </n-space>
-
       <n-space justify="center" span="0 400:1 600:2 800:3">
         <n-form
           class="form-container"
@@ -75,6 +69,20 @@
               />
             </n-form-item-gi>
 
+            <n-form-item-gi
+              label="Select the difficulty (min=1, max=10)"
+              path="difficulty"
+            >
+              <n-input-number
+                :default-value="1"
+                :min="1"
+                :max="10"
+                style="width: 100%"
+                v-model:value="model.difficulty"
+                clearable
+              />
+            </n-form-item-gi>
+
             <n-gi>
               <n-button type="primary" @click="addToMongoDB(model)">
                 Salvar
@@ -84,14 +92,14 @@
         </n-form>
       </n-space>
     </n-gi>
-    <!--  -->
+    <!-- CODE -->
     <n-gi>
       <n-space justify="center">
-        <n-h2 align-text type="success" style="padding: 1rem 1rem 0">
-          <n-text type="success"> Code </n-text>
+        <n-h2 align-text style="padding: 1rem 1rem 0">
+          <n-text type="warning"> Code </n-text>
         </n-h2>
       </n-space>
-      <div style="overflow: auto">
+      <div style="overflow: auto; padding: 1rem">
         <n-space>
           <n-code class="code" :code="model.code" :language="model.language" />
         </n-space>
@@ -114,6 +122,7 @@ import {
   NForm,
   NFormItemGi,
   NInput,
+  NInputNumber,
   NDynamicInput,
   NCode,
 } from 'naive-ui';
@@ -127,6 +136,7 @@ export default defineComponent({
     NForm,
     NFormItemGi,
     NInput,
+    NInputNumber,
     NDynamicInput,
     NCode,
   },
