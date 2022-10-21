@@ -1,5 +1,8 @@
 <template>
   <n-space vertical>
+    {{ user.user.email }}
+    {{ user.user.uid }}
+
     <n-card>
       <n-form ref="formRef" :model="model" size="medium" label-placement="top">
         <n-grid x-gap="12" :cols="1">

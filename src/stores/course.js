@@ -4,6 +4,8 @@ const URL = 'http://localhost:8082/';
 const ENDPOINT = 'courses';
 const MONGODB_URI = 'http://localhost:3000/api/';
 const MONGODB_ENDPOINT = 'challenges';
+// db
+import challengesDB from '../../server/fakedb/challenges';
 
 export const useCourseStore = defineStore('course', {
   state: () => ({
@@ -88,6 +90,10 @@ export const useCourseStore = defineStore('course', {
         this.courses = response.data;
       } catch (error) {
         this.error = error.message;
+        if (this.courses.length === 0) {
+          const response2 = challengesDB;
+          this.courses = response2;
+        }
       }
     },
     // get by id

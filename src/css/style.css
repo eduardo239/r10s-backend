@@ -10,10 +10,8 @@
 .alternatives {
     display: grid;
     gap: 1rem;
-    margin: 1rem;
+    margin: 1rem 0;
 }
-
-
 
 .radio-item {
     border: 1px solid var(--color-dark2);
@@ -33,6 +31,15 @@
     font-family: var(--font-mono);
     font-style: normal;
     font-size: .92rem;
+}
+
+/* - - - - - - - timer - - - - - - - - - */
+.timer {
+    width: 100%;
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    background: #1e1e1d;
 }
 
 /* - - - - - - - challenge - - - - - - - - - */

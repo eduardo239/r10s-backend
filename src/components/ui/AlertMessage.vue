@@ -1,5 +1,5 @@
 <template>
-  <n-space vertical>
+  <n-space vertical style="margin-top: 2rem" justify="center" v-if="!!error">
     <n-alert v-if="type === 'info'" title="Info" type="info" closable>
       {{ message }}
     </n-alert>
@@ -36,7 +36,7 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   components: {},
-  props: ['message', 'type'],
+  props: ['message', 'type', 'error'],
   methods: {
     ...mapActions(useUserStore, ['closeErrorMessage']),
   },

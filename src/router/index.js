@@ -43,16 +43,20 @@ const routes = [
     ],
   },
   {
-    path: '/courses',
-    name: 'courses',
+    path: '/challenges',
+    name: 'challenges',
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/Courses/AllCourses.vue'),
+      import(
+        /* webpackChunkName: "about" */ '../views/Challenge/AllChallenges.vue'
+      ),
   },
   {
     path: '/course/:courseId',
     name: 'course-by-id',
     component: () =>
-      import(/* webpackChunkName: "about" */ '../views/Courses/CourseById.vue'),
+      import(
+        /* webpackChunkName: "about" */ '../views/Challenge/ChallengeById.vue'
+      ),
   },
   {
     path: '/profile',

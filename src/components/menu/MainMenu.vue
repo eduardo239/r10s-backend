@@ -12,8 +12,8 @@
         <n-button text type="primary"> Home </n-button>
       </router-link>
 
-      <router-link class="main-menu__button" :to="`/courses`">
-        <n-button text type="primary"> Courses</n-button>
+      <router-link class="main-menu__button" :to="`/challenges`">
+        <n-button text type="primary"> Challenges </n-button>
       </router-link>
 
       <router-link

@@ -9,77 +9,28 @@
             : ''
         }`"
       >
-        <n-text depth="3" class="challenge__id"
-          >ID # {{ this.$route.params.courseId }}</n-text
-        >
+        <challenge-header
+          :id="course.course._id.toUpperCase()"
+          :language="course.course.language"
+          :question="course.course.question"
+          :difficulty="course.course.difficulty"
+        ></challenge-header>
 
-        <n-space style="padding: 2rem" align="start" justify="center" vertical>
-          <n-text depth="3"
-            >Programming language # {{ course.course.language }} - Difficulty #
-            {{ course.course?.difficulty ?? 0 }}</n-text
-          >
-          <n-space v-if="course.course" style="margin: 0">
-            <n-h3>
-              <n-text type="success"
-                >#{{ course.course.id }} {{ course.course.question }}</n-text
-              >
-            </n-h3>
-          </n-space>
+        <challenge-code
+          :language="course.course.language"
+          :code="course.course.code"
+        />
 
-          <n-space v-if="course.course" class="code-container">
-            <n-code
-              class="code"
-              :code="course.course.code"
-              :language="course.course.language"
-            />
-          </n-space>
+        <challenge-timer :timer="timer"></challenge-timer>
 
-          <n-space v-if="course.course" justify="center">
-            <n-h1 style="margin-bottom: 0">
-              <n-text type="error">{{ timer }}</n-text>
-            </n-h1>
-          </n-space>
+        <challenge-form :id="course.course.id"></challenge-form>
 
-          <n-form
-            ref="formRef"
-            :model="model"
-            size="medium"
-            label-placement="top"
-          >
-            <n-space v-if="course.course">
-              <n-radio-group
-                :disabled="!isPlaying"
-                class="alternatives"
-                v-if="!!course.course"
-                v-model:value="model.userAnswer"
-                name="userAnswer"
-              >
-                <n-radio
-                  v-for="(course, i) in course.course.answers"
-                  :key="i"
-                  :value="course"
-                  :label="course"
-                  size="large"
-                  class="radio-item"
-                />
-              </n-radio-group>
-            </n-space>
-
-            <n-space>
-              <n-button
-                @click="save"
-                type="success"
-                size="large"
-                :disabled="disableSaveButton"
-                >Salvar</n-button
-              >
-            </n-space>
-          </n-form>
-
-          <n-space style="margin-top: 2rem" justify="center" v-if="!!error">
-            <alert-message :message="error" type="warning"></alert-message>
-          </n-space>
-        </n-space>
+        <!-- TODO: erros -->
+        <!-- <alert-message
+          :error="error"
+          :message="error"
+          type="warning"
+        ></alert-message> -->
       </n-card>
     </n-layout>
   </n-space>
@@ -91,50 +42,49 @@ import { useRouter } from 'vue-router';
 import { mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { useCourseStore } from '@/stores/course';
-import AlertMessage from '@/components/ui/AlertMessage';
-import {
-  NText,
-  NCode,
-  NSpace,
-  NLayout,
-  NForm,
-  NRadioGroup,
-  NCard,
-  NRadio,
-  NH3,
-} from 'naive-ui';
+import ChallengeHeader from '@/components/ui/ChallengeHeader';
+import ChallengeTimer from '@/components/ui/ChallengeTimer';
+import ChallengeCode from '@/components/ui/ChallengeCode';
+import ChallengeForm from '@/components/ui/ChallengeForm';
+// import AlertMessage from '@/components/ui/AlertMessage';
+import { NSpace, NLayout, NCard } from 'naive-ui';
 
 export default defineComponent({
   components: {
-    AlertMessage,
-
-    NText,
-    NCode,
+    // AlertMessage,
+    ChallengeForm,
+    ChallengeHeader,
+    ChallengeTimer,
+    ChallengeCode,
     NSpace,
     NLayout,
-    NForm,
-    NRadioGroup,
     NCard,
-    NRadio,
-    NH3,
   },
   setup() {
     const route = useRouter();
     const timer = ref(10);
     const error = ref('');
     const difficulty = ref(3);
-    const disableSaveButton = ref(false);
+    const disabled = ref(false);
     const isPlaying = ref(true);
     const answerRef = ref();
     const course = useCourseStore();
     const user = useUserStore();
+    const title = ref('');
+    const changeTitle = (newTitle) => {
+      console.log('fire');
+      title.value = newTitle;
+    };
+
     return {
+      title,
+      changeTitle,
       route,
       error,
       course,
       user,
       answerRef,
-      disableSaveButton,
+      disabled,
       timer,
       difficulty,
       isPlaying,

@@ -33,9 +33,11 @@
         </n-form>
       </n-space>
 
-      <n-space style="margin-top: 2rem" justify="center" v-if="!!user.error">
-        <alert-message :message="user.error" type="warning"></alert-message>
-      </n-space>
+      <!-- <alert-message
+        :error="error"
+        :message="error"
+        type="warning"
+      ></alert-message> -->
     </n-gi>
   </n-grid>
 </template>
@@ -45,11 +47,11 @@ import { defineComponent, ref } from 'vue';
 import { mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { NForm, NButton, NGi, NGrid, NSpace } from 'naive-ui';
-import AlertMessage from '@/components/ui/AlertMessage';
+// import AlertMessage from '@/components/ui/AlertMessage';
 
 export default defineComponent({
   components: {
-    AlertMessage,
+    // AlertMessage,
     NForm,
     NButton,
     NGi,
