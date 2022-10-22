@@ -216,6 +216,11 @@ export const useUserStore = defineStore('user', {
       }
     },
     // http://localhost:3000/api/user-challenges/uid/F88RSMoCYMbpunkfkGmuRTysfHo2/cid/634c68cc3ae49021ed610648
+    /**
+     *
+     * @param {String} uid from Firebase
+     * @param {String} cid from MongoDB
+     */
     async getChallengesByUIDAndCID(uid, cid) {
       try {
         const response = await axios.get(

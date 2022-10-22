@@ -8,6 +8,7 @@ import AddChallenge from '@/views/Admin/AddChallenge';
 import UserProfile from '@/views/User/UserProfile';
 import UserEdit from '@/views/User/UserEdit';
 import UserStats from '@/views/User/UserStats';
+// challenge
 
 const routes = [
   {
@@ -51,8 +52,16 @@ const routes = [
       ),
   },
   {
-    path: '/course/:courseId',
-    name: 'course-by-id',
+    path: '/challenge-description/:challengeId',
+    name: 'challenge-description-by-id',
+    component: () =>
+      import(
+        /* webpackChunkName: "about" */ '../views/Challenge/ChallengeDesc.vue'
+      ),
+  },
+  {
+    path: '/challenge/:courseId',
+    name: 'challenge-by-id',
     component: () =>
       import(
         /* webpackChunkName: "about" */ '../views/Challenge/ChallengeById.vue'

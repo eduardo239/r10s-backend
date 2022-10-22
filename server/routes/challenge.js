@@ -6,14 +6,14 @@ const Challenge = require('../models/Challenge.js');
 
 /* GET ALL Challenge */
 
-router.get('/', function (req, res, next) {
-  Challenge.find(function (err, products) {
-    if (err) return next(err);
-    res.json(products);
-  });
-});
-/* GET SINGLE Challenge BY ID */
+// router.get('/', function (req, res, next) {
+//   Challenge.find(function (err, products) {
+//     if (err) return next(err);
+//     res.json(products);
+//   });
+// });
 
+/* GET SINGLE Challenge BY ID */
 router.get('/:id', function (req, res, next) {
   Challenge.findById(req.params.id, function (err, post) {
     if (err) return next(err);
@@ -43,6 +43,24 @@ router.delete('/:id', function (req, res, next) {
     if (err) return next(err);
     res.json(post);
   });
+});
+
+/* GET Challenge BY ID and PAGINATION */
+// eslint-disable-next-line no-unused-vars
+router.get('/', async (req, res, next) => {
+  // eslint-disable-next-line no-unused-vars
+  const { page = 1, limit = 2 } = req.query;
+
+  try {
+    const challenges = await Challenge.find()
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
+
+    const count = await Challenge.count();
+    res.json({ challenges, totalPages: Math.ceil(count / limit), page });
+  } catch (err) {
+    if (err) return next(err);
+  }
 });
 
 module.exports = router;

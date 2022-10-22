@@ -151,6 +151,7 @@ export default defineComponent({
       model: ref({
         question: '',
         answers: ['1', '2', '3'],
+        difficulty: 1,
       }),
     };
   },

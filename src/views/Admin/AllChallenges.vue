@@ -19,7 +19,7 @@ import { useCourseStore } from '@/stores/course';
 import { defineComponent, h, ref } from 'vue';
 import { NDataTable, NGrid, NGi, NSpace, NButton } from 'naive-ui';
 
-const createColumns = ({ play }) => {
+const createColumns = ({ view, remove }) => {
   return [
     {
       title: 'ID',
@@ -36,7 +36,7 @@ const createColumns = ({ play }) => {
             round: true,
             type: 'success',
             size: 'small',
-            onClick: () => play(row),
+            onClick: () => view(row),
           },
           { default: () => 'Ver mais' }
         );
@@ -61,15 +61,15 @@ const createColumns = ({ play }) => {
             round: true,
             type: 'success',
             size: 'small',
-            onClick: () => play(row),
+            onClick: () => view(row),
           },
           { default: () => 'Ver mais' }
         );
       },
     },
     {
-      title: 'Action',
-      key: 'actions',
+      title: 'Remove',
+      key: 'remove',
       render(row) {
         return h(
           NButton,
@@ -79,7 +79,7 @@ const createColumns = ({ play }) => {
             type: 'error',
             round: true,
             size: 'small',
-            onClick: () => play(row),
+            onClick: () => remove(row._id),
           },
           { default: () => 'Remover' }
         );
@@ -101,15 +101,19 @@ export default defineComponent({
       answerRef,
       course,
       columns: createColumns({
-        play(row) {
-          router.push(`/course/${row.id}`);
+        view(row) {
+          router.push(`/course/${row._id}`);
+        },
+        remove(row) {
+          const id = row;
+          course.removeChallengeyByIdMDB(id);
         },
       }),
       pagination: false,
     };
   },
   methods: {
-    ...mapActions(useCourseStore, ['remove', 'allCourses']),
+    ...mapActions(useCourseStore, []),
   },
   computed: {},
   mounted() {

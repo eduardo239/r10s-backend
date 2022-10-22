@@ -3,7 +3,7 @@
     <!-- <template #prefix>#{{ course._id }}</template> -->
 
     <template #suffix>
-      <router-link :to="`/course/${course._id}`">
+      <router-link :to="`/challenge-description/${course._id}`">
         <n-button type="primary">Start Test</n-button>
       </router-link>
     </template>
