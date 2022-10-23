@@ -1,90 +1,67 @@
 <template>
   <n-space vertical>
-    <n-layout>
-      <n-card
-        v-if="course.course"
-        :title="`Challenge ${
-          !!user.userChallengeAlreadyFinished
-            ? '#DONE: This challenge has already been accomplished'
-            : ''
-        }`"
+    <n-card title="Challenge" v-if="course.course">
+      <!-- header -->
+      <challenge-header
+        :id="course.course._id"
+        :question="course.course.question"
+        :difficulty="course.course.difficulty"
+        :timer="timer"
+      ></challenge-header>
+      <!-- code -->
+      <challenge-code
+        :language="course.course.language"
+        :code="course.course.code"
+      ></challenge-code>
+      <!-- form -->
+      <challenge-form
+        @save-form.once="save2"
+        :alternatives="course.course.answers"
       >
-        <challenge-header
-          :id="course.course._id.toUpperCase()"
-          :language="course.course.language"
-          :question="course.course.question"
-          :difficulty="course.course.difficulty"
-        ></challenge-header>
+      </challenge-form>
+    </n-card>
 
-        <challenge-code
-          :language="course.course.language"
-          :code="course.course.code"
-        />
-
-        <challenge-timer :timer="timer"></challenge-timer>
-
-        <challenge-form :id="course.course.id"></challenge-form>
-
-        <!-- TODO: erros -->
-        <!-- <alert-message
-          :error="error"
-          :message="error"
-          type="warning"
-        ></alert-message> -->
-      </n-card>
-    </n-layout>
+    <!-- not found -->
+    <n-card title="Challenge not found!" v-else></n-card>
   </n-space>
 </template>
 
 <script>
 import { defineComponent, ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { useCourseStore } from '@/stores/course';
 import ChallengeHeader from '@/components/ui/ChallengeHeader';
-import ChallengeTimer from '@/components/ui/ChallengeTimer';
 import ChallengeCode from '@/components/ui/ChallengeCode';
 import ChallengeForm from '@/components/ui/ChallengeForm';
-// import AlertMessage from '@/components/ui/AlertMessage';
-import { NSpace, NLayout, NCard } from 'naive-ui';
+import { NSpace, NCard } from 'naive-ui';
+// TODO: remover timer e options
 
 export default defineComponent({
   components: {
-    // AlertMessage,
     ChallengeForm,
     ChallengeHeader,
-    ChallengeTimer,
     ChallengeCode,
     NSpace,
-    NLayout,
     NCard,
   },
   setup() {
-    const route = useRouter();
-    const timer = ref(10);
+    const user = useUserStore();
+    const course = useCourseStore();
+
+    const timer = ref(10000);
     const error = ref('');
     const difficulty = ref(3);
-    const disabled = ref(false);
     const isPlaying = ref(true);
     const answerRef = ref();
-    const course = useCourseStore();
-    const user = useUserStore();
     const title = ref('');
-    const changeTitle = (newTitle) => {
-      console.log('fire');
-      title.value = newTitle;
-    };
 
     return {
       title,
-      changeTitle,
-      route,
       error,
       course,
       user,
       answerRef,
-      disabled,
       timer,
       difficulty,
       isPlaying,
@@ -124,32 +101,22 @@ export default defineComponent({
       }
       // TODO: encerrar desafio por falta de tempo
     },
-    save() {
+
+    save2(x) {
       this.error = '';
-      if (this.model.userAnswer) {
-        this.disableSaveButton = true;
-        this.isPlaying = false;
-        // salvar a resposta do usuario
+      // constoi o model
+      this.isPlaying = false;
+      if (this.user) {
         const uid = this.user.getUser.uid;
-        const cid = this.$route.params.courseId;
-        const correct = this.course.course.correct === this.model.userAnswer;
-        const answer = this.model.userAnswer;
-        const timeLeft = this.timer;
-        const difficulty = this.difficulty;
-        const points = correct ? timeLeft * difficulty : 0;
-        const data = {
-          uid,
-          cid,
-          correct,
-          answer,
-          time: timeLeft,
-          difficulty,
-          points,
-        };
+        const cid = this.$route.params.challengeId;
+        const correct = x.alternative === this.course.course.correct;
+        const answer = x.alternative;
+        const difficulty = this.course.course.difficulty || 1;
+        const time = this.timer;
+        const points = correct ? time * difficulty : 0;
+        const data = { uid, cid, correct, answer, points, difficulty, time };
+
         this.user.postNewAnswer(data);
-        return;
-      } else {
-        this.error = 'Please select an alternative';
       }
     },
   },
@@ -161,19 +128,15 @@ export default defineComponent({
   },
   created() {
     this.$watch(
-      () => this.$route.params.courseId,
+      () => this.$route.params?.courseId,
       () => {
-        if (this.$route.params.courseId) {
-          this.course.getChallengeByIdMDB(this.$route.params.courseId);
+        if (this.$route.params.challengeId) {
+          const cid = this.$route.params.challengeId;
+          this.course.getChallengeByIdMDB(cid);
         }
       },
       { immediate: true }
     );
-
-    // timer
-    this.checkCompletedChallenge();
-
-    this.countDowntimer();
   },
 });
 </script>

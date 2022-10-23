@@ -13,19 +13,36 @@
     margin: 1rem 0;
 }
 
-.radio-item {
-    border: 1px solid var(--color-dark2);
+/* - - - - - - - frm - - - - - - - - - */
+.form-radio-container {
     width: 100%;
-    padding: 1rem;
+}
+.form-radio {
+    border: 1px solid var(--color-dark2);
+    padding: .5rem;
     border-radius: 5px;
+    width: calc(100% - 1rem);
+
 }
 
+/* - - - - - - - img - - - - - - - - - */
+img {
+    display: inline-block;
+    max-width: 100%;
+}
+.poster {
+    width: 30rem;
+}
+.logo {
+    width: 90px;
+}
 /* - - - - - - - code - - - - - - - - - */
 .code-container {
-    border-bottom: 1px solid var(--color-primary);
-    border-top: 1px solid var(--color-primary);
-    padding: 2rem 0;
-    width: 100%;
+    border-bottom: 1px dashed var(--color-dark2);
+    border-top: 1px dashed var(--color-dark2);
+    border-left: 3px solid var(--color-primary);
+    border-right: 3px solid var(--color-dark2);
+    padding: 1rem;
 }
 .code {
     font-family: var(--font-mono);
@@ -44,7 +61,8 @@
 
 /* - - - - - - - challenge - - - - - - - - - */
 .challenge__id {
-    border: 1px dashed var(--n-code-color) !important;
+    border: 1px dashed var(--n-code-color);
+    opacity: .6;
     padding: 10px;
 }
 
@@ -59,8 +77,23 @@
     letter-spacing: .4px;
 }
 .main-menu__button button {
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: .4px;
 }
-/* - - - - - - - main menu - - - - - - - - - */
+/* - - - - - - - tag - - - - - - - - - */
+.tag {
+    color: var(--color-dark)
+}
+.tag-red {
+    background-color: #c7959c;
+}
+.tag-blue {
+    background-color: #86b1ce;
+}
+.tag-green {
+    background-color: #8cbb8b;
+}
+.tag-yellow {
+    background-color: #e0d2a4;
+}

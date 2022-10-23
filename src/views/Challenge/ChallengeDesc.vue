@@ -2,28 +2,45 @@
   <n-space vertical>
     <n-layout>
       <n-card v-if="course && getChallenge" :title="course.question">
-        <n-h1> {{ getChallenge.question }} </n-h1>
+        <n-h2>
+          <n-text type="warning">{{ getChallenge.question }} </n-text>
+        </n-h2>
         <n-space vertical>
-          <n-p> Difficulty: {{ getChallenge.difficulty }} </n-p>
-          <n-p> Language: {{ getChallenge.language }} </n-p>
-          <n-p> ID: {{ getChallenge._id }} </n-p>
-          <n-p> Updated: {{ getChallenge.updated_at }} </n-p>
-          <n-p> Finished: {{ user.userChallengeAlreadyFinished }} </n-p>
+          <n-list>
+            <n-list-item
+              ><n-p> Difficulty: {{ getChallenge.difficulty }} </n-p>
+            </n-list-item>
+            <n-list-item
+              ><n-p> Language: {{ getChallenge.language }} </n-p>
+            </n-list-item>
+            <n-list-item
+              ><n-p> ID: {{ getChallenge._id }} </n-p>
+            </n-list-item>
+            <n-list-item
+              ><n-p> Updated: {{ getChallenge.updated_at }} </n-p>
+            </n-list-item>
+
+            <n-p> Finished: {{ user.alreadyFinished }} </n-p>
+          </n-list>
+        </n-space>
+
+        <n-space vertical style="margin-top: 2rem">
+          <n-button-group>
+            <router-link :to="`/challenges`">
+              <n-button>back</n-button>
+            </router-link>
+            <n-button
+              @click="() => goToChallenge()"
+              type="success"
+              :disabled="user.alreadyFinished"
+            >
+              {{
+                user.alreadyFinished ? 'Challenge Already Finished' : 'Start'
+              }}
+            </n-button>
+          </n-button-group>
         </n-space>
       </n-card>
-
-      <br />
-      <n-button-group>
-        <router-link :to="`/challenges`">
-          <n-button>back</n-button>
-        </router-link>
-        <router-link
-          v-if="user.loggedIn && !user.userChallengeAlreadyFinished"
-          :to="`/challenge/${this.$route.params.challengeId}`"
-        >
-          <n-button type="success">Start</n-button>
-        </router-link>
-      </n-button-group>
     </n-layout>
   </n-space>
 </template>
@@ -33,9 +50,13 @@ import { mapState } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { useCourseStore } from '@/stores/course';
 import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import {
   NCard,
-  NH1,
+  NH2,
+  NText,
+  NListItem,
+  NList,
   NP,
   NSpace,
   NLayout,
@@ -44,20 +65,36 @@ import {
 } from 'naive-ui';
 
 export default defineComponent({
-  components: { NCard, NH1, NP, NSpace, NLayout, NButtonGroup, NButton },
+  components: {
+    NCard,
+    NH2,
+    NText,
+    NListItem,
+    NList,
+    NP,
+    NSpace,
+    NLayout,
+    NButtonGroup,
+    NButton,
+  },
   setup() {
+    const router = useRouter();
     const course = useCourseStore();
     const user = useUserStore();
     const loading = ref(true);
 
-    return { loading, course, user };
+    return { router, loading, course, user };
   },
   watch: {},
   methods: {
     // ...mapActions(useUserStore, ['getChallengesByUIDAndCID']),
+    goToChallenge() {
+      this.router.push(`/challenge/${this.$route.params.challengeId}`);
+    },
   },
   computed: {
     ...mapState(useCourseStore, ['getChallenge']),
+    ...mapState(useUserStore, ['getUser']),
   },
   created() {
     this.$watch(

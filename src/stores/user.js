@@ -19,7 +19,7 @@ export const useUserStore = defineStore('user', {
     loggedIn: false,
     error: '',
     userTotalChallenges: 0,
-    userChallengeAlreadyFinished: false,
+    alreadyFinished: false,
   }),
   getters: {
     getUser(state) {
@@ -228,9 +228,9 @@ export const useUserStore = defineStore('user', {
         );
         if (response.status === 200) {
           if (response.data.length > 0) {
-            this.userChallengeAlreadyFinished = true;
+            this.alreadyFinished = true;
           } else {
-            this.userChallengeAlreadyFinished = false;
+            this.alreadyFinished = false;
           }
         }
       } catch (error) {

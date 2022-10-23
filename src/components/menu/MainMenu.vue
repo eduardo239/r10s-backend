@@ -2,10 +2,8 @@
   <n-space class="main-menu" justify="space-between" align="center">
     <n-space>
       <router-link to="/">
-        <n-h1 style="margin: 0">
-          <n-text>r10s</n-text>
-        </n-h1></router-link
-      >
+        <img :src="R10SLogo" class="logo" alt="challenge your knowledge" />
+      </router-link>
     </n-space>
     <n-space>
       <router-link class="main-menu__button" to="/">
@@ -54,13 +52,14 @@ import { NButton, NAvatar, NText, NH1, NSpace } from 'naive-ui';
 import { mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { defineComponent } from 'vue';
+import R10SLogo from '@/assets/logo/png/logo-no-background.png';
 
 export default defineComponent({
   component: { NButton, NAvatar, NText, NH1, NSpace },
   setup() {
     const user = useUserStore();
 
-    return { user };
+    return { user, R10SLogo };
   },
   methods: {
     ...mapActions(useUserStore, ['logOutFirebase']),

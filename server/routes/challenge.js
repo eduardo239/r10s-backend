@@ -49,12 +49,13 @@ router.delete('/:id', function (req, res, next) {
 // eslint-disable-next-line no-unused-vars
 router.get('/', async (req, res, next) => {
   // eslint-disable-next-line no-unused-vars
-  const { page = 1, limit = 2 } = req.query;
+  const { page = 1, limit = 10 } = req.query;
 
   try {
     const challenges = await Challenge.find()
       .limit(limit * 1)
-      .skip((page - 1) * limit);
+      .skip((page - 1) * limit)
+      .sort({ updated_at: -1 });
 
     const count = await Challenge.count();
     res.json({ challenges, totalPages: Math.ceil(count / limit), page });

@@ -7,9 +7,9 @@
   </n-space>
 </template>
 <script>
-import { NSpace, NButton } from 'naive-ui';
-import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
+import { defineComponent } from 'vue';
+import { NSpace, NButton } from 'naive-ui';
 
 export default defineComponent({
   props: ['disabled', 'save'],

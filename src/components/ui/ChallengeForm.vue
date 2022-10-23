@@ -1,124 +1,74 @@
 <template>
-  <n-form ref="formRef" :model="model" size="medium" label-placement="top">
-    <n-space v-if="course.course">
-      <n-radio-group
-        :disabled="!isPlaying"
-        class="alternatives"
-        v-if="!!course.course"
-        v-model:value="model.userAnswer"
-        name="userAnswer"
+  <n-space vertical style="margin: 1rem 0">
+    <n-radio-group
+      v-for="(alternative, i) in alternatives"
+      :key="i"
+      :disabled="false"
+      v-model:value="model.alternative"
+      class="form-radio-container"
+    >
+      <n-radio
+        class="form-radio"
+        :checked="checkedValueRef === alternative"
+        :value="alternative"
+        name="form-alternatives"
+        @change="handleChange"
       >
-        <n-radio
-          v-for="(course, i) in course.course.answers"
-          :key="i"
-          :value="course"
-          :label="course"
-          size="large"
-          class="radio-item"
-        />
-      </n-radio-group>
-    </n-space>
+        {{ alternative }}
+      </n-radio>
+    </n-radio-group>
 
-    <challenge-options :save="save" :disabled="disabled"></challenge-options>
-  </n-form>
+    <n-button-group
+      style="display: flex; justify-content: space-between; margin-top: 1rem"
+    >
+      <n-button
+        size="large"
+        :disabled="disabled"
+        type="primary"
+        @click="submit(model)"
+      >
+        SAVE
+      </n-button>
+
+      <n-button :disabled="!disabled" size="large" @click="() => router.go(-1)"
+        >Back</n-button
+      >
+    </n-button-group>
+  </n-space>
 </template>
-
 <script>
 import { defineComponent, ref } from 'vue';
-import { mapActions } from 'pinia';
-import { useUserStore } from '@/stores/user';
-import { useCourseStore } from '@/stores/course';
-import ChallengeOptions from '@/components/ui/ChallengeOptions';
-
-import { NSpace, NForm, NRadioGroup, NRadio } from 'naive-ui';
+import { NSpace, NButton, NButtonGroup, NRadioGroup, NRadio } from 'naive-ui';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
-  props: ['id'],
-  components: {
-    ChallengeOptions,
-    NSpace,
-    NForm,
-    NRadioGroup,
-    NRadio,
-  },
+  props: ['alternatives'],
+  components: { NSpace, NButton, NButtonGroup, NRadioGroup, NRadio },
   setup() {
-    const course = useCourseStore();
-    const user = useUserStore();
+    const router = useRouter();
 
-    const timer = ref(10);
-    const difficulty = ref(3);
     const disabled = ref(false);
-    const isPlaying = ref(true);
-    const answerRef = ref();
-    const title = ref('');
-    const changeTitle = (newTitle) => {
-      console.log('fire');
-      title.value = newTitle;
-    };
-
+    const answer = ref(null);
+    const checkedValueRef = ref(null);
     return {
-      title,
-      timer,
-      difficulty,
-      changeTitle,
-      course,
-      user,
-      answerRef,
+      router,
+      answer,
       disabled,
-      isPlaying,
+      checkedValueRef,
+      handleChange(e) {
+        checkedValueRef.value = e.target.value;
+      },
       model: ref({
-        userAnswer: null,
+        alternative: '',
+        done: false,
       }),
     };
   },
   methods: {
-    ...mapActions(useCourseStore, ['courseById']),
-    ...mapActions(useUserStore, ['answer']),
-
-    save() {
-      this.error = '';
-      if (this.model.userAnswer) {
-        this.disableSaveButton = true;
-        this.isPlaying = false;
-        // salvar a resposta do usuario
-        const uid = this.user.getUser.uid;
-        const cid = this.$route.params.courseId;
-        const correct = this.course.course.correct === this.model.userAnswer;
-        const answer = this.model.userAnswer;
-        const timeLeft = this.timer;
-        const difficulty = this.difficulty;
-        const points = correct ? timeLeft * difficulty : 0;
-        const data = {
-          uid,
-          cid,
-          correct,
-          answer,
-          time: timeLeft,
-          difficulty,
-          points,
-        };
-        this.user.postNewAnswer(data);
-        return;
-      } else {
-        this.error = 'Please select an alternative';
-      }
+    submit(data) {
+      this.disabled = true;
+      this.$emit('saveForm', data);
     },
-  },
-  unmounted() {
-    this.disableSaveButton = true;
-    this.isPlaying = false;
-  },
-  created() {
-    // FIXME:
-    this.$watch(
-      () => this.id,
-      () => {
-        if (this.id) {
-          this.course.getChallengeByIdMDB(this.id);
-        }
-      },
-      { immediate: true }
-    );
   },
 });
 </script>

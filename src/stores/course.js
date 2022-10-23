@@ -17,11 +17,12 @@ export const useCourseStore = defineStore('course', {
     loading: false,
   }),
   getters: {
+    // remover
     allCourses(state) {
-      return state.courses.length === 0 ? [] : state.courses.reverse();
+      return state.courses.length === 0 ? [] : state.courses;
     },
     allChallenges(state) {
-      return state.courses.length === 0 ? [] : state.courses.reverse();
+      return state.courses.length === 0 ? [] : state.courses;
     },
     courseById(state) {
       return state.course;
@@ -132,7 +133,7 @@ export const useCourseStore = defineStore('course', {
         const response = await axios.get(
           `${MONGODB_URI}${MONGODB_ENDPOINT}/${uid}`
         );
-        console.log(response.data);
+
         this.course = response.data;
       } catch (error) {
         this.error = error.message;

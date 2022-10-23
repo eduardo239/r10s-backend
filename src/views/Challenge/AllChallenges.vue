@@ -2,7 +2,7 @@
   <n-space vertical>
     <n-layout>
       <n-card v-if="!course.loading" title="All Challenges">
-        <n-space v-if="course.allChallenges.length > 0">
+        <n-space justify="center" v-if="course.allChallenges.length > 0">
           <n-list
             hoverable
             v-for="course in course.allChallenges"
@@ -47,7 +47,7 @@ export default defineComponent({
     const course = useCourseStore();
     const user = useUserStore();
     const page = ref(1);
-    const limit = ref(3);
+    const limit = ref(10);
 
     return { formRef, course, user, page, limit };
   },

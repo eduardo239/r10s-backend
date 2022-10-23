@@ -102,14 +102,14 @@ export default defineComponent({
       course,
       columns: createColumns({
         view(row) {
-          router.push(`/course/${row._id}`);
+          router.push(`/challenge-description/${row._id}`);
         },
         remove(row) {
           const id = row;
           course.removeChallengeyByIdMDB(id);
         },
       }),
-      pagination: false,
+      pagination: true,
     };
   },
   methods: {

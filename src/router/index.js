@@ -60,7 +60,7 @@ const routes = [
       ),
   },
   {
-    path: '/challenge/:courseId',
+    path: '/challenge/:challengeId',
     name: 'challenge-by-id',
     component: () =>
       import(
