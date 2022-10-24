@@ -49,7 +49,7 @@ export default defineComponent({
     const user = useUserStore();
     const course = useCourseStore();
 
-    const timer = ref(10000);
+    const timer = ref(1000);
     const error = ref('');
     const difficulty = ref(3);
     const isPlaying = ref(true);
@@ -93,11 +93,15 @@ export default defineComponent({
         setTimeout(() => {
           this.timer--;
           this.countDowntimer();
-        }, 1000);
+        }, 10);
+      } else if (this.timer <= 0) {
+        this.disableSaveButton = true;
+        this.isPlaying = false;
+        alert('Game Over!');
+        return;
       } else {
         this.disableSaveButton = true;
         this.isPlaying = false;
-        return;
       }
       // TODO: encerrar desafio por falta de tempo
     },
@@ -121,7 +125,9 @@ export default defineComponent({
     },
   },
   computed: {},
-  mounted() {},
+  mounted() {
+    this.countDowntimer();
+  },
   unmounted() {
     this.disableSaveButton = true;
     this.isPlaying = false;

@@ -42,18 +42,12 @@
                 strong
                 @click="signUpFirebase(model)"
               >
-                Registrar
+                Register
               </n-button>
             </n-gi>
           </n-grid>
         </n-form>
       </n-space>
-
-      <!-- <alert-message
-        :error="error"
-        :message="error"
-        type="warning"
-      ></alert-message> -->
     </n-gi>
   </n-grid>
 </template>
@@ -63,7 +57,6 @@ import { defineComponent, ref } from 'vue';
 import { mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { NForm, NButton, NGi, NGrid, NSpace } from 'naive-ui';
-// import AlertMessage from '@/components/ui/AlertMessage';
 
 export default defineComponent({
   components: { NForm, NButton, NGi, NGrid, NSpace },
@@ -86,6 +79,7 @@ export default defineComponent({
     // remover signUp depois
     ...mapActions(useUserStore, ['signUp', 'signUpFirebase']),
   },
+
   computed: {},
 });
 </script>

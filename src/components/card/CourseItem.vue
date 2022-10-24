@@ -41,7 +41,7 @@ export default defineComponent({
   props: ['course'],
   computed: {
     sliceWord() {
-      let s = 27;
+      let s = 37;
       let q = this.course.question;
       if (q.length > s) return q.slice(0, s) + ' ...';
       return this.course.question;

@@ -78,6 +78,8 @@ export const useCourseStore = defineStore('course', {
     },
     // mongodb
     async addToMongoDB(data) {
+      this.loading = true;
+      this.error = '';
       try {
         const response = await axios.post(
           `${MONGODB_URI}${MONGODB_ENDPOINT}`,
@@ -88,9 +90,12 @@ export const useCourseStore = defineStore('course', {
 
         if (status === 200) {
           this.getChallengesMDB();
+          this.error = 'Success';
         }
       } catch (error) {
         this.error = error.message;
+      } finally {
+        this.loading = false;
       }
     },
     // get all challenges
@@ -110,6 +115,7 @@ export const useCourseStore = defineStore('course', {
     // eslint-disable-next-line no-unused-vars
     async getAllChallengesByPageMDB({ page, _limit }) {
       this.loading = true;
+      this.error = '';
       try {
         const response = await axios.get(
           `${MONGODB_URI}${MONGODB_ENDPOINT}?page=${page}&limit=${_limit}`
@@ -140,6 +146,7 @@ export const useCourseStore = defineStore('course', {
       }
     },
     async removeChallengeyByIdMDB(id) {
+      this.error = '';
       this.loading = true;
       try {
         const response = await axios.delete(
@@ -151,7 +158,7 @@ export const useCourseStore = defineStore('course', {
           this.getChallengesMDB();
         }
       } catch (error) {
-        console.log(error);
+        this.error = error.message;
       } finally {
         this.loading = false;
       }

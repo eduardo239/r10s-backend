@@ -5,6 +5,7 @@
     </n-h1>
   </n-space>
 </template>
+
 <script>
 import { defineComponent } from 'vue';
 import { NText, NSpace, NLayout, NH1 } from 'naive-ui';
@@ -22,4 +23,3 @@ export default defineComponent({
   },
 });
 </script>
-<style></style>

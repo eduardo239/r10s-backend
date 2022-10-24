@@ -16,6 +16,12 @@
             <sign-up></sign-up>
           </n-tab-pane>
         </n-tabs>
+
+        <alert-message
+          :error="user.error"
+          :message="user.error"
+          type="warning"
+        ></alert-message>
       </n-card>
     </n-layout>
   </n-space>
@@ -27,12 +33,14 @@ import { mapActions, mapState } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { NTabs, NCard, NTabPane, NLayout, NSpace } from 'naive-ui';
 import { useRouter } from 'vue-router';
+import AlertMessage from '@/components/ui/AlertMessage';
 
 import SignIn from '@/views/Auth/SignInView.vue';
 import SignUp from '@/views/Auth/SignUpView.vue';
 
 export default defineComponent({
   components: {
+    AlertMessage,
     SignIn,
     SignUp,
     NTabs,
@@ -63,6 +71,9 @@ export default defineComponent({
   computed: {
     ...mapState(useUserStore, ['isUserLoggedIn']),
   },
+  mounted() {
+    this.user.resetError();
+  },
   watch: {
     isUserLoggedIn(newValue) {
       if (newValue) this.router.push('/');
@@ -70,13 +81,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<!--   
-  <n-grid x-gap='12' cols='1'>
-    <n-gi>
-      <n-space justify='center'>
-        
-      </n-space>
-    </n-gi>
-  </n-grid>
- -->

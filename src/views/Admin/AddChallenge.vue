@@ -105,6 +105,14 @@
         </n-space>
       </div>
     </n-gi>
+
+    <n-gi span="2">
+      <alert-message
+        :error="course.error"
+        :message="course.error"
+        type="success"
+      ></alert-message>
+    </n-gi>
   </n-grid>
 </template>
 
@@ -114,6 +122,7 @@ import { mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { useCourseStore } from '@/stores/course';
 import { defineComponent, ref } from 'vue';
+import AlertMessage from '@/components/ui/AlertMessage';
 import {
   NGrid,
   NGi,
@@ -129,6 +138,7 @@ import {
 
 export default defineComponent({
   components: {
+    AlertMessage,
     NGrid,
     NGi,
     NH2,
@@ -143,9 +153,11 @@ export default defineComponent({
   setup() {
     const formRef = ref(null);
     const user = useUserStore();
+    const course = useCourseStore();
 
     return {
       user,
+      course,
       formRef,
       languageOptions: LANGS,
       model: ref({

@@ -237,5 +237,8 @@ export const useUserStore = defineStore('user', {
         this.error = error;
       }
     },
+    resetError() {
+      this.error = '';
+    },
   },
 });

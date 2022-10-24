@@ -49,7 +49,7 @@ import {
   NLayout,
   NSpace,
 } from 'naive-ui';
-import image from '@/assets/images/pic1.jpg';
+import image from '@/assets/images/pic3.jpg';
 
 export default {
   components: {

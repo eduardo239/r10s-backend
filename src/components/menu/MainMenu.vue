@@ -19,7 +19,7 @@
         v-if="!user.loggedIn"
         :to="`/auth`"
       >
-        <n-button text type="primary"> Sign In </n-button>
+        <n-button text type="primary"> Auth </n-button>
       </router-link>
 
       <router-link

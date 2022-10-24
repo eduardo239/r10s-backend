@@ -3,24 +3,39 @@
     <n-layout>
       <n-card v-if="course && getChallenge" :title="course.question">
         <n-h2>
+          <n-text depth="3">Question: </n-text>
           <n-text type="warning">{{ getChallenge.question }} </n-text>
         </n-h2>
         <n-space vertical>
           <n-list>
             <n-list-item
-              ><n-p> Difficulty: {{ getChallenge.difficulty }} </n-p>
+              ><n-p>
+                Difficulty:
+                <n-text type="warning" strong>
+                  {{ getChallenge.difficulty }}
+                </n-text>
+              </n-p>
             </n-list-item>
             <n-list-item
-              ><n-p> Language: {{ getChallenge.language }} </n-p>
+              ><n-p>
+                Language:
+                <n-text type="error" strong>{{ getChallenge.language }}</n-text>
+              </n-p>
             </n-list-item>
             <n-list-item
               ><n-p> ID: {{ getChallenge._id }} </n-p>
             </n-list-item>
             <n-list-item
-              ><n-p> Updated: {{ getChallenge.updated_at }} </n-p>
+              ><n-p>
+                Updated:
+                {{ new Date(getChallenge.updated_at).toLocaleString() }}
+              </n-p>
             </n-list-item>
 
-            <n-p> Finished: {{ user.alreadyFinished }} </n-p>
+            <n-p>
+              Finished:
+              <n-text type="success">{{ user.alreadyFinished }}</n-text>
+            </n-p>
           </n-list>
         </n-space>
 
