@@ -4,14 +4,20 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Challenge = require('../models/Challenge.js');
 
-/* GET ALL Challenge */
+/* GET COUNT ALL Challenge */
 
-// router.get('/', function (req, res, next) {
-//   Challenge.find(function (err, products) {
-//     if (err) return next(err);
-//     res.json(products);
-//   });
-// });
+router.get('/count', async function (req, res) {
+  const count = await Challenge.count({});
+  return res.json({ count });
+});
+
+/* GET ALL Challenge */
+router.get('/all', async function (req, res, next) {
+  Challenge.find({}, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+});
 
 /* GET SINGLE Challenge BY ID */
 router.get('/:id', function (req, res, next) {

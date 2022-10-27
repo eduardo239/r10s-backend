@@ -8,7 +8,6 @@
       >
         <n-space vertical>
           <n-list bordered>
-            <template #header> Email: </template>
             <n-list-item>{{ getUser.email }}</n-list-item>
           </n-list>
           <router-link :to="`/profile/${user.user.uid}`">

@@ -15,6 +15,7 @@ export const useCourseStore = defineStore('course', {
     course: null,
     error: '',
     loading: false,
+    totalChallenges: 0,
   }),
   getters: {
     // remover
@@ -28,7 +29,7 @@ export const useCourseStore = defineStore('course', {
       return state.course;
     },
     getTotalChallenges(state) {
-      return state.courses.length;
+      return state.totalChallenges;
     },
     getChallenge(state) {
       return state.course;
@@ -156,6 +157,27 @@ export const useCourseStore = defineStore('course', {
 
         if (status === 200) {
           this.getChallengesMDB();
+        }
+      } catch (error) {
+        this.error = error.message;
+      } finally {
+        this.loading = false;
+      }
+    },
+    async getTotalOfChallenges() {
+      // http://localhost:3000/api/challenges/count
+      this.error = '';
+      this.loading = true;
+      try {
+        const response = await axios.get(
+          `${MONGODB_URI}${MONGODB_ENDPOINT}/count`
+        );
+        const status = response.status;
+
+        if (status === 200) {
+          this.totalChallenges = response.data.count;
+        } else {
+          this.totalChallenges = 0;
         }
       } catch (error) {
         this.error = error.message;

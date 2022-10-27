@@ -11,6 +11,7 @@ const MONGODB_URI = 'http://localhost:3000/api/';
 const LOCALDB_URI = 'http://localhost:8082/';
 const ENDPOINT = 'users';
 const ENDPOINT_UC = 'user-challenges';
+const ENDPOINT_U = 'users';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -25,7 +26,7 @@ export const useUserStore = defineStore('user', {
     getUser(state) {
       return state.user;
     },
-    allUsers(state) {
+    getAllUsers(state) {
       return state.users.reverse();
     },
     isUserLoggedIn(state) {
@@ -253,6 +254,19 @@ export const useUserStore = defineStore('user', {
           } else {
             this.alreadyFinished = false;
           }
+        }
+      } catch (error) {
+        this.error = error;
+      }
+    },
+    // http://localhost:3000/api/users
+    async getAllUsersMDB() {
+      try {
+        const response = await axios.get(`${MONGODB_URI}${ENDPOINT_U}`);
+        if (response.status === 200) {
+          this.users = response.data;
+        } else {
+          this.users = [];
         }
       } catch (error) {
         this.error = error;

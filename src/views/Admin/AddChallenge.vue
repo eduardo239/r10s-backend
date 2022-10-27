@@ -1,7 +1,7 @@
 <template>
-  <n-grid :x-gap="12" :cols="2">
-    <n-gi>
-      <n-space justify="center" span="0 400:1 600:2 800:3">
+  <n-grid cols="2" item-responsive>
+    <n-gi span="2 700:1">
+      <n-space justify="center">
         <n-form
           class="form-container"
           ref="formRef"
@@ -9,7 +9,7 @@
           size="medium"
           label-placement="top"
         >
-          <n-grid :x-gap="12" :cols="1">
+          <n-grid :x-gap="1" :cols="1">
             <n-form-item-gi label="Question" path="question">
               <n-input
                 v-model:value="model.question"
@@ -93,7 +93,7 @@
       </n-space>
     </n-gi>
     <!-- CODE -->
-    <n-gi>
+    <n-gi span="400:2 800:1">
       <n-space justify="center">
         <n-h2 align-text style="padding: 1rem 1rem 0">
           <n-text type="warning"> Code </n-text>

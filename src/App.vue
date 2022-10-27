@@ -61,6 +61,8 @@ export default defineComponent({
         console.log(2);
       }
     });
+    // busca a quantidade de desafios
+    this.course.getTotalOfChallenges();
   },
 });
 </script>

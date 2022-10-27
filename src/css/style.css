@@ -101,3 +101,16 @@ img {
 .text-center {
     text-align: center;
 }
+
+/* - - - - - - - colors stats - - - - - - - - - */
+.text-error > .n-statistic-value > span {
+    color: var(--nn-color-error) !important;
+}
+
+.text-warning > .n-statistic-value > span {
+    color: var(--nn-color-warning) !important;
+}
+
+.text-success > .n-statistic-value > span {
+    color: var(--nn-color-success) !important;
+}
