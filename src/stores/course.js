@@ -27,7 +27,7 @@ export const useCourseStore = defineStore('course', {
     courseById(state) {
       return state.course;
     },
-    totalChallenges(state) {
+    getTotalChallenges(state) {
       return state.courses.length;
     },
     getChallenge(state) {

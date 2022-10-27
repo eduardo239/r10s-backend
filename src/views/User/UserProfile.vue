@@ -46,7 +46,7 @@ import {
   NLayoutContent,
   NSpace,
 } from 'naive-ui';
-import { mapActions, mapState } from 'pinia';
+import { mapActions } from 'pinia';
 
 export default defineComponent({
   components: {
@@ -66,9 +66,7 @@ export default defineComponent({
   methods: {
     ...mapActions(useUserStore, ['getChallengesByUID', 'logOutFirebase']),
   },
-  computed: {
-    ...mapState(useCourseStore, ['totalChallenges']),
-  },
+  computed: {},
   mounted() {
     this.course.getChallengesMDB();
   },

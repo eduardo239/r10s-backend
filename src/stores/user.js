@@ -18,7 +18,7 @@ export const useUserStore = defineStore('user', {
     users: [],
     loggedIn: false,
     error: '',
-    userTotalChallenges: 0,
+    userCompletedChallenges: [],
     alreadyFinished: false,
   }),
   getters: {
@@ -30,6 +30,22 @@ export const useUserStore = defineStore('user', {
     },
     isUserLoggedIn(state) {
       return state.loggedIn;
+    },
+    getTotalCompletedChallenges(state) {
+      return state.userCompletedChallenges.length || 0;
+    },
+    getTotalCorrectChallenges(state) {
+      const total = state.userCompletedChallenges.filter(
+        (v) => v.correct === 'true'
+      );
+      return total.length;
+    },
+    getPercentCorrectChallenges() {
+      const result = Math.floor(
+        (this.getTotalCorrectChallenges / this.getTotalCompletedChallenges) *
+          100
+      );
+      return result + '%';
     },
   },
   actions: {
@@ -209,7 +225,7 @@ export const useUserStore = defineStore('user', {
           `${MONGODB_URI}${ENDPOINT_UC}/uid/${uid}`
         );
         if (response.status === 200) {
-          this.userTotalChallenges = response.data.length;
+          this.userCompletedChallenges = response.data;
         }
       } catch (error) {
         this.error = error;
