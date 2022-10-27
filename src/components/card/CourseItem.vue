@@ -19,7 +19,7 @@
           >
 
           <router-link :to="`/challenge-description/${course._id}`">
-            <n-button type="primary">Start Test</n-button>
+            <n-button type="primary">View More</n-button>
           </router-link>
         </n-space>
       </template>

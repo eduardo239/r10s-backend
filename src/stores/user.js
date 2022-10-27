@@ -41,6 +41,11 @@ export const useUserStore = defineStore('user', {
       return total.length;
     },
     getPercentCorrectChallenges() {
+      if (
+        this.getTotalCompletedChallenges === 0 &&
+        this.getTotalCompletedChallenges === 0
+      )
+        return '0%';
       const result = Math.floor(
         (this.getTotalCorrectChallenges / this.getTotalCompletedChallenges) *
           100

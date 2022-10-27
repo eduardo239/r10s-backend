@@ -7,6 +7,10 @@
         content-style="padding: 24px;"
       >
         <n-space vertical>
+          <n-list bordered>
+            <template #header> Email: </template>
+            <n-list-item>{{ getUser.email }}</n-list-item>
+          </n-list>
           <router-link :to="`/profile/${user.user.uid}`">
             <n-button strong secondary block type="success"> Profile </n-button>
           </router-link>
@@ -45,8 +49,10 @@ import {
   NButton,
   NLayoutContent,
   NSpace,
+  NList,
+  NListItem,
 } from 'naive-ui';
-import { mapActions } from 'pinia';
+import { mapActions, mapState } from 'pinia';
 
 export default defineComponent({
   components: {
@@ -55,6 +61,8 @@ export default defineComponent({
     NButton,
     NLayoutContent,
     NSpace,
+    NList,
+    NListItem,
   },
   setup() {
     const formRef = ref({});
@@ -66,7 +74,9 @@ export default defineComponent({
   methods: {
     ...mapActions(useUserStore, ['getChallengesByUID', 'logOutFirebase']),
   },
-  computed: {},
+  computed: {
+    ...mapState(useUserStore, ['getUser']),
+  },
   mounted() {
     this.course.getChallengesMDB();
   },

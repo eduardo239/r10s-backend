@@ -1,6 +1,6 @@
 .form-container, .item-container{
-    padding: 2rem;
     box-shadow: var(--shadow);
+    padding: 2rem;
 }
 .form-container{
     max-width: 20rem;
@@ -96,4 +96,8 @@ img {
 }
 .tag-yellow {
     background-color: #e0d2a4;
+}
+
+.text-center {
+    text-align: center;
 }
