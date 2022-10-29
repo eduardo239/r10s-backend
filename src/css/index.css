@@ -17,9 +17,8 @@
     --nn-color-success: #63e2b7;;
 }
 
-body {
-    background-color: var(--color-dark);
-}
+.light-bg {background-color: var(--color-light2);}
+.dark-bg {background-color: var(--color-dark2);}
 
 a {
     text-decoration: none;

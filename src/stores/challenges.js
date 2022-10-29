@@ -1,13 +1,14 @@
 import axios from 'axios';
 import { defineStore } from 'pinia';
-const URL = 'http://localhost:8082/';
-const ENDPOINT = 'courses';
-const MONGODB_URI = 'http://localhost:3000/api/';
-const MONGODB_ENDPOINT = 'challenges';
-// db
-// import challengesDB from '../../server/fakedb/challenges';
 
-export const useCourseStore = defineStore('course', {
+const uri = {
+  API_CHALLENGES:
+    process.env.NODE_ENV !== 'production'
+      ? process.env.VUE_APP_NOT_MONGODB_URI_CHALLENGES
+      : process.env.VUE_APP_NOT_LOCAL_URI_CHALLENGES,
+};
+
+export const useCourseStore = defineStore('challenges', {
   state: () => ({
     challenges: [],
     challengesTotalPages: 1,
@@ -38,7 +39,7 @@ export const useCourseStore = defineStore('course', {
   actions: {
     async add(data) {
       try {
-        const response = await axios.post(`${URL}${ENDPOINT}`, data);
+        const response = await axios.post(`${uri.API_CHALLENGES}`, data);
         this.course = response.data;
         const status = response.status;
 
@@ -51,7 +52,7 @@ export const useCourseStore = defineStore('course', {
     },
     async remove(id) {
       try {
-        const response = await axios.delete(`${URL}${ENDPOINT}/${id}`);
+        const response = await axios.delete(`${uri.API_CHALLENGES}/${id}`);
         const status = response.status;
 
         if (status === 200) {
@@ -63,7 +64,7 @@ export const useCourseStore = defineStore('course', {
     },
     async getCourses() {
       try {
-        const response = await axios.get(`${URL}${ENDPOINT}`);
+        const response = await axios.get(`${uri.API_CHALLENGES}`);
         this.courses = response.data;
       } catch (error) {
         console.log(error);
@@ -71,7 +72,7 @@ export const useCourseStore = defineStore('course', {
     },
     async getCourseById(id) {
       try {
-        const response = await axios.get(`${URL}${ENDPOINT}/${id}`);
+        const response = await axios.get(`${uri.API_CHALLENGES}/${id}`);
         this.course = response.data;
       } catch (error) {
         console.log(error);
@@ -82,10 +83,7 @@ export const useCourseStore = defineStore('course', {
       this.loading = true;
       this.error = '';
       try {
-        const response = await axios.post(
-          `${MONGODB_URI}${MONGODB_ENDPOINT}`,
-          data
-        );
+        const response = await axios.post(`${uri.API_CHALLENGES}`, data);
         this.course = response.data;
         const status = response.status;
 
@@ -102,7 +100,7 @@ export const useCourseStore = defineStore('course', {
     // get all challenges
     async getChallengesMDB() {
       try {
-        const response = await axios.get(`${MONGODB_URI}${MONGODB_ENDPOINT}`);
+        const response = await axios.get(`${uri.API_CHALLENGES}`);
         if (response.status === 200) {
           this.courses = response.data.challenges;
         } else {
@@ -119,7 +117,7 @@ export const useCourseStore = defineStore('course', {
       this.error = '';
       try {
         const response = await axios.get(
-          `${MONGODB_URI}${MONGODB_ENDPOINT}?page=${page}&limit=${_limit}`
+          `${uri.API_CHALLENGES}?page=${page}&limit=${_limit}`
         );
         if (response.status === 200) {
           this.courses = response.data.challenges;
@@ -137,9 +135,7 @@ export const useCourseStore = defineStore('course', {
     // get by id
     async getChallengeByIdMDB(uid) {
       try {
-        const response = await axios.get(
-          `${MONGODB_URI}${MONGODB_ENDPOINT}/${uid}`
-        );
+        const response = await axios.get(`${uri.API_CHALLENGES}/${uid}`);
 
         this.course = response.data;
       } catch (error) {
@@ -150,9 +146,7 @@ export const useCourseStore = defineStore('course', {
       this.error = '';
       this.loading = true;
       try {
-        const response = await axios.delete(
-          `${MONGODB_URI}${MONGODB_ENDPOINT}/${id}`
-        );
+        const response = await axios.delete(`${uri.API_CHALLENGES}/${id}`);
         const status = response.status;
 
         if (status === 200) {
@@ -169,9 +163,7 @@ export const useCourseStore = defineStore('course', {
       this.error = '';
       this.loading = true;
       try {
-        const response = await axios.get(
-          `${MONGODB_URI}${MONGODB_ENDPOINT}/count`
-        );
+        const response = await axios.get(`${uri.API_CHALLENGES}/count`);
         const status = response.status;
 
         if (status === 200) {

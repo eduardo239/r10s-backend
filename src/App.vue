@@ -1,13 +1,6 @@
 <template>
-  <n-config-provider :theme="darkTheme" :hljs="hljs">
-    <n-layout
-      style="
-        min-height: 100vh;
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 1rem;
-      "
-    >
+  <n-config-provider :theme="ui.userTheme" :hljs="hljs" :class="userTheme">
+    <n-layout class="body-wrapper">
       <main-menu></main-menu>
       <router-view />
     </n-layout>
@@ -15,13 +8,13 @@
 </template>
 
 <script>
-import { ref } from 'vue';
 import { auth } from './firebaseConfig';
 import { mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
-import { useCourseStore } from '@/stores/course';
+import { useCourseStore } from '@/stores/challenges';
+import { useUiStore } from '@/stores/ui';
 import { defineComponent } from 'vue';
-import { darkTheme, NLayout } from 'naive-ui';
+import { NLayout } from 'naive-ui';
 import MainMenu from '@/components/menu/MainMenu';
 
 import hljs from 'highlight.js/lib/core';
@@ -38,33 +31,31 @@ hljs.registerLanguage('java', java);
 export default defineComponent({
   components: { MainMenu, NLayout },
   setup() {
-    const formRef = ref({});
     const user = useUserStore();
     const course = useCourseStore();
+    const ui = useUiStore();
 
-    return { user, course, formRef, darkTheme, hljs };
+    return { user, course, hljs, ui };
   },
   methods: {
-    ...mapActions(useUserStore, ['logOutFirebase', 'fetchUserFirebase']),
+    ...mapActions(useUserStore, ['fetchUserFirebase']),
   },
   computed: {
-    _user() {
-      return this.user;
+    userTheme() {
+      return this.ui.userTheme.name === 'light' ? 'light-bg' : 'dark-bg';
     },
   },
   mounted() {
-    // this.course.getCourses();
+    // carrega o usuario ao iniciar
     auth.onAuthStateChanged((user) => {
       if (this?.user) {
         this.fetchUserFirebase(user);
-      } else {
-        console.log(2);
       }
     });
     // busca a quantidade de desafios
     this.course.getTotalOfChallenges();
+    // carrega o tema do usuario
+    this.ui.loadLocalStorageTheme();
   },
 });
 </script>
-
-<style></style>

@@ -56,6 +56,7 @@ export const useUserStore = defineStore('user', {
   },
   actions: {
     async signIn(data) {
+      this.error = '';
       const response = await axios.get(`${LOCALDB_URI}${ENDPOINT}`, data);
       const _user = response.data.filter((user) => user.email === data.email);
 
@@ -64,9 +65,11 @@ export const useUserStore = defineStore('user', {
         this.loggedIn = true;
       } else {
         this.user = null;
+        this.error = 'Failed to login';
       }
     },
     async signUp(data) {
+      this.error = '';
       try {
         await axios.post(`${LOCALDB_URI}users`, data);
       } catch (error) {
@@ -74,15 +77,20 @@ export const useUserStore = defineStore('user', {
       }
     },
     // signup firebase
-    async signUpFirebase({ email, password, name }) {
+    async signUpFirebase({ email, password, name, terms }) {
       this.error = '';
+      if (!terms) {
+        this.error = 'You must accept the terms';
+        return;
+      }
+
       try {
-        const responseFB = await createUserWithEmailAndPassword(
+        const response = await createUserWithEmailAndPassword(
           auth,
           email,
           password
         );
-        const uid = responseFB.user.uid;
+        const uid = response.user.uid;
 
         try {
           const _user = {
@@ -94,10 +102,10 @@ export const useUserStore = defineStore('user', {
         } catch (error) {
           console.error(error);
         }
-        if (responseFB) {
-          this.user = responseFB.user;
+        if (response) {
+          this.user = response.user;
         } else {
-          throw new Error('Unable to register user');
+          throw new Error('Failed to register');
         }
       } catch (error) {
         this.error = error.message;
@@ -122,15 +130,12 @@ export const useUserStore = defineStore('user', {
         this.error = error.message;
       }
     },
-    // update user
-    async updateUserFirebase() {
-      console.log('todo');
-    },
     // logout firebase
     async logOutFirebase() {
       await signOut(auth);
       this.user = null;
       this.loggedIn = false;
+      this.error = '';
     },
     // fetch user firebase
     async fetchUserFirebase(user) {
@@ -149,22 +154,7 @@ export const useUserStore = defineStore('user', {
         console.log(error);
       }
     },
-    // googleSignIn
-    async googleSignIn() {
-      // let provider = new firebase.auth.GoogleAuthProvider();
-      // firebase
-      //   .auth()
-      //   .signInWithPopup(provider)
-      //   .then((result) => {
-      //     let token = result.credential.accessToken;
-      //     let user = result.user;
-      //     console.log(token); // Token
-      //     console.log(user); // User that was authenticated
-      //   })
-      //   .catch((err) => {
-      //     console.log(err); // This will give you all the information needed to further debug any errors
-      //   });
-    },
+
     async getUsers() {
       try {
         const response = await axios.get(`${LOCALDB_URI}users`);
@@ -210,6 +200,7 @@ export const useUserStore = defineStore('user', {
     logout() {
       this.user = null;
       this.loggedIn = false;
+      this.error = '';
     },
     // error message
     closeErrorMessage() {

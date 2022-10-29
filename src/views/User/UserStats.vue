@@ -37,7 +37,7 @@
 <script>
 import { mapState } from 'pinia';
 import { useUserStore } from '@/stores/user';
-import { useCourseStore } from '@/stores/course';
+import { useCourseStore } from '@/stores/challenges';
 import { defineComponent } from 'vue';
 import { NSpace, NStatistic, NList, NListItem } from 'naive-ui';
 // import { useCourseStore } from '@/stores/course';

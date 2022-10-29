@@ -18,6 +18,16 @@
             <n-button strong secondary block type="success"> Edit </n-button>
           </router-link>
 
+          <n-button
+            strong
+            secondary
+            block
+            type="success"
+            @click="ui.switchTheme"
+          >
+            Switch Theme
+          </n-button>
+
           <router-link v-if="user.loggedIn" to="/">
             <n-button
               strong
@@ -40,8 +50,9 @@
 
 <script>
 import { useUserStore } from '@/stores/user';
-import { useCourseStore } from '@/stores/course';
+import { useCourseStore } from '@/stores/challenges';
 import { defineComponent, ref } from 'vue';
+import { useUiStore } from '@/stores/ui';
 import {
   NLayout,
   NLayoutSider,
@@ -67,8 +78,9 @@ export default defineComponent({
     const formRef = ref({});
     const course = useCourseStore();
     const user = useUserStore();
+    const ui = useUiStore();
 
-    return { user, course, formRef };
+    return { user, course, formRef, ui };
   },
   methods: {
     ...mapActions(useUserStore, ['getChallengesByUID', 'logOutFirebase']),

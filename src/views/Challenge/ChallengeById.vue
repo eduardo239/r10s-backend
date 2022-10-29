@@ -30,7 +30,7 @@
 import { defineComponent, ref } from 'vue';
 import { mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
-import { useCourseStore } from '@/stores/course';
+import { useCourseStore } from '@/stores/challenges';
 import ChallengeHeader from '@/components/ui/ChallengeHeader';
 import ChallengeCode from '@/components/ui/ChallengeCode';
 import ChallengeForm from '@/components/ui/ChallengeForm';

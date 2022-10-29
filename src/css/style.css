@@ -13,6 +13,13 @@
     margin: 1rem 0;
 }
 
+/* - - - - - - - body - - - - - - - - - */
+.body-wrapper {
+    min-height: 100vh;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1rem;
+}
 /* - - - - - - - frm - - - - - - - - - */
 .form-radio-container {
     width: 100%;

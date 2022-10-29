@@ -39,7 +39,7 @@
               <n-form-item-gi>
                 <n-switch
                   size="small"
-                  v-model:value="terms"
+                  v-model:value="model.terms"
                   style="padding: 0 1rem 0 0"
                 />
                 <n-text depth="3"
@@ -87,25 +87,22 @@ export default defineComponent({
   setup() {
     const formRef = ref({ answers: [] });
     const user = useUserStore();
-    const terms = ref(false);
 
     return {
       user,
-      terms,
       formRef,
       model: ref({
-        name: 'nome',
-        email: '1@2.com',
+        name: 'aaa',
+        email: 'a@a.com',
         password: '123123',
         password2: '123123',
+        terms: false,
       }),
     };
   },
   methods: {
-    // remover signUp depois
-    ...mapActions(useUserStore, ['signUp', 'signUpFirebase']),
+    ...mapActions(useUserStore, ['signUpFirebase']),
   },
-
   computed: {},
 });
 </script>

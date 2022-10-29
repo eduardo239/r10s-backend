@@ -37,7 +37,7 @@ import CourseItem from '@/components/card/CourseItem';
 import { defineComponent, ref } from 'vue';
 import { mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
-import { useCourseStore } from '@/stores/course';
+import { useCourseStore } from '@/stores/challenges';
 import { NList, NSpin, NCard, NPagination, NSpace, NLayout } from 'naive-ui';
 
 export default defineComponent({

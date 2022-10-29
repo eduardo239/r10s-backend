@@ -22,7 +22,7 @@
 <script>
 import { useRouter } from 'vue-router';
 import { mapActions } from 'pinia';
-import { useCourseStore } from '@/stores/course';
+import { useCourseStore } from '@/stores/challenges';
 import { defineComponent, h, ref } from 'vue';
 import { NDataTable, NGrid, NGi, NSpace, NButton } from 'naive-ui';
 import AlertMessage from '@/components/ui/AlertMessage';

@@ -1,0 +1,249 @@
+[
+    {
+        "_id": "63543e3c6c8d28a12b481e66",
+        "question": "test",
+        "language": "JAVASCRIPT",
+        "code": "function setup() {\n    const formRef = ref({});\n    const course = useCourseStore();\n    const user = useUserStore();\n    const page = ref(2);\n\n    return { formRef, course, user, page };\n  }",
+        "answers": [
+            "1",
+            "2",
+            "3",
+            "4"
+        ],
+        "correct": "4",
+        "difficulty": 2,
+        "updated_at": "2022-10-22T19:02:20.025Z",
+        "__v": 0
+    },
+    {
+        "_id": "635593ebf2df31ccd8133a9d",
+        "question": "1",
+        "language": "PYTHON",
+        "code": "1",
+        "answers": [
+            "1",
+            "2",
+            "3"
+        ],
+        "correct": "2",
+        "difficulty": 1,
+        "updated_at": "2022-10-23T19:20:11.246Z",
+        "__v": 0
+    },
+    {
+        "_id": "635593ecf2df31ccd8133aa1",
+        "question": "1",
+        "language": "PYTHON",
+        "code": "1",
+        "answers": [
+            "1",
+            "2",
+            "3"
+        ],
+        "correct": "2",
+        "difficulty": 1,
+        "updated_at": "2022-10-23T19:20:12.000Z",
+        "__v": 0
+    },
+    {
+        "_id": "635593ecf2df31ccd8133aa5",
+        "question": "1",
+        "language": "PYTHON",
+        "code": "1",
+        "answers": [
+            "1",
+            "2",
+            "3"
+        ],
+        "correct": "2",
+        "difficulty": 1,
+        "updated_at": "2022-10-23T19:20:12.318Z",
+        "__v": 0
+    },
+    {
+        "_id": "635593ecf2df31ccd8133aa9",
+        "question": "1",
+        "language": "PYTHON",
+        "code": "1",
+        "answers": [
+            "1",
+            "2",
+            "3"
+        ],
+        "correct": "2",
+        "difficulty": 1,
+        "updated_at": "2022-10-23T19:20:12.624Z",
+        "__v": 0
+    },
+    {
+        "_id": "635593ecf2df31ccd8133aad",
+        "question": "1",
+        "language": "PYTHON",
+        "code": "1",
+        "answers": [
+            "1",
+            "2",
+            "3"
+        ],
+        "correct": "2",
+        "difficulty": 1,
+        "updated_at": "2022-10-23T19:20:12.947Z",
+        "__v": 0
+    },
+    {
+        "_id": "6355ad07c127b506e6f6024d",
+        "question": "Press Code",
+        "language": "JAVA",
+        "code": "class Pu {\n    private String name;\n    private int account;\n}",
+        "answers": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+        ],
+        "correct": "5",
+        "difficulty": 2,
+        "updated_at": "2022-10-23T21:07:19.278Z",
+        "__v": 0
+    },
+    {
+        "_id": "6355ba1bc127b506e6f6034c",
+        "question": "It's sometimes useful to emit a specific value with an event. For example, we may want the <BlogPost> component to be in charge of how much to enlarge the text by. In those cases, we can pass extra arguments to $emit to provide this value:",
+        "language": "JAVASCRIPT",
+        "code": "import { createApp } from 'vue'\n\nconst app = createApp({\n  data() {\n    return {\n      count: 0\n    }\n  }\n})\n\napp.mount('#app')",
+        "answers": [
+            "Creating",
+            "Posting",
+            "Mount",
+            "Store"
+        ],
+        "correct": "Mount",
+        "difficulty": 2,
+        "updated_at": "2022-10-23T22:03:07.038Z",
+        "__v": 0
+    },
+    {
+        "_id": "6355bfa3c127b506e6f60446",
+        "question": "Find your logo in the most common formats and sizes. Download the zip folder for easy access to all your files. Find details of the colors and fonts used in your logo.",
+        "language": "CPP",
+        "code": "#include <iostream>\nusing namespace std;\n\nint main()\n{\n    int a = 5, b = 10, temp;\n\n    cout << \"Before swapping.\" << endl;\n    cout << \"a = \" << a << \", b = \" << b << endl;\n\n    temp = a;\n    a = b;\n    b = temp;\n\n    cout << \"\\nAfter swapping.\" << endl;\n    cout << \"a = \" << a << \", b = \" << b << endl;\n\n    return 0;\n}",
+        "answers": [
+            "1",
+            "2",
+            "3",
+            "swap"
+        ],
+        "correct": "swap",
+        "difficulty": 2,
+        "updated_at": "2022-10-23T22:26:43.834Z",
+        "__v": 0
+    },
+    {
+        "_id": "635673a46d31aa78cdeddc64",
+        "question": "Teste Git",
+        "language": "PYTHON",
+        "code": "low = 1\nhigh = 3\nmid = low / high\nprint(mid)",
+        "answers": [
+            "1",
+            "2",
+            "3"
+        ],
+        "correct": "2",
+        "difficulty": 1,
+        "updated_at": "2022-10-24T11:14:44.579Z",
+        "__v": 0
+    },
+    {
+        "_id": "6356793c6d31aa78cdeddd7a",
+        "question": "const date = new Date(\"2020-05-12T23:50:21.817Z\");\ndate.toString()               // Tue May 12 2020 18:50:21 GMT-0500 (Central Daylight Time)\ndate.toDateString()           // Tue May 12 2020\ndate.toTimeString()           // 18:50:21 GMT-0500 (Central Daylight Time)\ndate.toISOString()            // 2020-05-12T23:50:21.817Z\ndate.toUTCString()            // Tue, 12 May 2020 23:50:21 GMT\ndate.toGMTString()            // Tue, 12 May 2020 23:50:21 GMT\ndate.toJSON()                 // 2020-05-12T23:50:21.817Z\ndate.toLocaleString()         // 5/12/2020, 6:50:21 PM\ndate.toLocaleDateString()     // 5/12/2020\ndate.toLocaleTimeString()     // 6:50:21 PM",
+        "language": "JAVASCRIPT",
+        "code": "const date = new Date(\"2020-05-12T23:50:21.817Z\");\ndate.toString()               // Tue May 12 2020 18:50:21 GMT-0500 (Central Daylight Time)\ndate.toDateString()           // Tue May 12 2020\ndate.toTimeString()           // 18:50:21 GMT-0500 (Central Daylight Time)\ndate.toISOString()            // 2020-05-12T23:50:21.817Z\ndate.toUTCString()            // Tue, 12 May 2020 23:50:21 GMT\ndate.toGMTString()            // Tue, 12 May 2020 23:50:21 GMT\ndate.toJSON()                 // 2020-05-12T23:50:21.817Z\ndate.toLocaleString()         // 5/12/2020, 6:50:21 PM\ndate.toLocaleDateString()     // 5/12/2020\ndate.toLocaleTimeString()     // 6:50:21 PM",
+        "answers": [
+            "1",
+            "2",
+            "3"
+        ],
+        "correct": "2",
+        "difficulty": 1,
+        "updated_at": "2022-10-24T11:38:36.893Z",
+        "__v": 0
+    },
+    {
+        "_id": "63567e5c6d31aa78cdedddeb",
+        "question": "123",
+        "language": "PYTHON",
+        "code": "312 = 123",
+        "answers": [
+            "1",
+            "2",
+            "3"
+        ],
+        "correct": "3",
+        "difficulty": 1,
+        "updated_at": "2022-10-24T12:00:28.449Z",
+        "__v": 0
+    },
+    {
+        "_id": "63567eaa6d31aa78cdedddef",
+        "question": "By default, n-grid will compute grid content based on window size and container size. This would cause 2 side effects: Content may shift in SSR mode; Render items has layout shift and it would influence performance slightly. If you don't need any responsive functionality,",
+        "language": "PYTHON",
+        "code": "4214241124",
+        "answers": [
+            "1",
+            "2",
+            "3"
+        ],
+        "correct": "2",
+        "difficulty": 1,
+        "updated_at": "2022-10-24T12:01:46.345Z",
+        "__v": 0
+    },
+    {
+        "_id": "635a6eb90ed1d37097cc94f0",
+        "question": "123123",
+        "language": "PYTHON",
+        "code": "i = 20\nx = 30\nw = x/i\nz = x/w\nprint(z)",
+        "answers": [
+            "1.5",
+            "20",
+            "30",
+            "5"
+        ],
+        "correct": "20",
+        "difficulty": 2,
+        "updated_at": "2022-10-27T11:42:49.348Z",
+        "__v": 0
+    },
+    {
+        "_id": "635a6ec90ed1d37097cc94f4",
+        "question": "Math and Division",
+        "language": "PYTHON",
+        "code": "i = 20\nx = 30\nw = x/i\nz = x/w\nprint(z)",
+        "answers": [
+            "1.5",
+            "20",
+            "30",
+            "5"
+        ],
+        "correct": "20",
+        "difficulty": 2,
+        "updated_at": "2022-10-27T11:43:05.707Z",
+        "__v": 0
+    },
+    {
+        "_id": "635d184b5cf19f622aefa548",
+        "question": "1232",
+        "language": "PYTHON",
+        "code": "123",
+        "answers": [
+            "1",
+            "2",
+            "3"
+        ],
+        "correct": "3",
+        "difficulty": 1,
+        "updated_at": "2022-10-29T12:10:51.385Z",
+        "__v": 0
+    }
+]

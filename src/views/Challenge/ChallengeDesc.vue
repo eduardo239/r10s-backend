@@ -63,7 +63,7 @@
 <script>
 import { mapState } from 'pinia';
 import { useUserStore } from '@/stores/user';
-import { useCourseStore } from '@/stores/course';
+import { useCourseStore } from '@/stores/challenges';
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import {
