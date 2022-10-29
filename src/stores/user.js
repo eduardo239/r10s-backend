@@ -26,7 +26,7 @@ export const useUserStore = defineStore('user', {
     users: [],
     loggedIn: false,
     isAdmin: false,
-    error: '',
+    error: { status: false, message: '', type: '' },
     loading: false,
     userCompletedChallenges: [],
     alreadyFinished: false,
@@ -229,10 +229,7 @@ export const useUserStore = defineStore('user', {
       this.loggedIn = false;
       this.error = '';
     },
-    // error message
-    closeErrorMessage() {
-      this.error = '';
-    },
+
     // atividade
     async postNewAnswer(data) {
       try {
@@ -292,6 +289,10 @@ export const useUserStore = defineStore('user', {
     },
     resetError() {
       this.error = '';
+    },
+
+    closeErrorMessage() {
+      this.resetError();
     },
   },
 });

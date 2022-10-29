@@ -1,3 +1,4 @@
+import { ERROR, SUCCESS } from '@/helpers/constants';
 import axios from 'axios';
 import { defineStore } from 'pinia';
 
@@ -14,7 +15,7 @@ export const useCourseStore = defineStore('challenges', {
     challengesTotalPages: 1,
     courses: [],
     course: null,
-    error: '',
+    error: { status: false, message: '', type: '' },
     loading: false,
     totalChallenges: 0,
   }),
@@ -81,7 +82,7 @@ export const useCourseStore = defineStore('challenges', {
     // mongodb
     async addToMongoDB(data) {
       this.loading = true;
-      this.error = '';
+      this.resetError();
       try {
         const response = await axios.post(`${uri.API_CHALLENGES}`, data);
         this.course = response.data;
@@ -89,10 +90,18 @@ export const useCourseStore = defineStore('challenges', {
 
         if (status === 200) {
           this.getChallengesMDB();
-          this.error = 'Success';
+          this.error = {
+            message: 'Challenge added successfully',
+            type: SUCCESS,
+            status: true,
+          };
         }
       } catch (error) {
-        this.error = error.message;
+        this.error = {
+          message: error.message,
+          type: ERROR,
+          status: true,
+        };
       } finally {
         this.loading = false;
       }
@@ -107,14 +116,18 @@ export const useCourseStore = defineStore('challenges', {
           this.courses = [];
         }
       } catch (error) {
-        this.error = error.message;
+        this.error = {
+          message: error.message,
+          type: ERROR,
+          status: true,
+        };
       }
     },
     // http://localhost:3000/api/challenges?page=1&?limit=1
     // eslint-disable-next-line no-unused-vars
     async getAllChallengesByPageMDB({ page, _limit }) {
       this.loading = true;
-      this.error = '';
+      this.resetError();
       try {
         const response = await axios.get(
           `${uri.API_CHALLENGES}?page=${page}&limit=${_limit}`
@@ -127,24 +140,33 @@ export const useCourseStore = defineStore('challenges', {
           this.challengesTotalPages = 1;
         }
       } catch (error) {
-        this.error = error.message;
+        this.error = {
+          message: error.message,
+          type: ERROR,
+          status: true,
+        };
       } finally {
         this.loading = false;
       }
     },
     // get by id
     async getChallengeByIdMDB(uid) {
+      this.resetError();
       try {
         const response = await axios.get(`${uri.API_CHALLENGES}/${uid}`);
 
         this.course = response.data;
       } catch (error) {
-        this.error = error.message;
+        this.error = {
+          message: error.message,
+          type: ERROR,
+          status: true,
+        };
       }
     },
     async removeChallengeyByIdMDB(id) {
-      this.error = '';
       this.loading = true;
+      this.resetError();
       try {
         const response = await axios.delete(`${uri.API_CHALLENGES}/${id}`);
         const status = response.status;
@@ -153,15 +175,19 @@ export const useCourseStore = defineStore('challenges', {
           this.getChallengesMDB();
         }
       } catch (error) {
-        this.error = error.message;
+        this.error = {
+          message: error.message,
+          type: ERROR,
+          status: true,
+        };
       } finally {
         this.loading = false;
       }
     },
     async getTotalOfChallenges() {
       // http://localhost:3000/api/challenges/count
-      this.error = '';
       this.loading = true;
+      this.resetError();
       try {
         const response = await axios.get(`${uri.API_CHALLENGES}/count`);
         const status = response.status;
@@ -172,7 +198,11 @@ export const useCourseStore = defineStore('challenges', {
           this.totalChallenges = 0;
         }
       } catch (error) {
-        this.error = error.message;
+        this.error = {
+          message: error.message,
+          type: ERROR,
+          status: true,
+        };
       } finally {
         this.loading = false;
       }
@@ -180,6 +210,9 @@ export const useCourseStore = defineStore('challenges', {
     // reset
     resetCourse() {
       this.course = null;
+    },
+    resetError() {
+      this.error = { status: false, message: '', type: '' };
     },
   },
 });

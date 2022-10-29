@@ -7,6 +7,7 @@ const ChallengeSchema = new mongoose.Schema({
   answers: { type: [String], required: true },
   correct: { type: String, required: true },
   difficulty: { type: Number, min: 1, max: 10, required: true },
+  duration: { type: Number, min: 10, required: true },
   updated_at: { type: Date, default: Date.now },
 });
 module.exports = mongoose.model('Challenge', ChallengeSchema);

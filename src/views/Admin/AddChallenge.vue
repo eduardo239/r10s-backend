@@ -1,9 +1,8 @@
 <template>
   <n-grid cols="2" item-responsive>
     <n-gi span="2 700:1">
-      <n-space justify="center">
+      <n-space class="form-add-challenge">
         <n-form
-          class="form-container"
           ref="formRef"
           :model="model"
           size="medium"
@@ -83,6 +82,22 @@
               />
             </n-form-item-gi>
 
+            <n-form-item-gi
+              label="How long will the challenge last"
+              path="duration"
+            >
+              <n-space :min="10" :max="100" vertical style="width: 100%">
+                <n-slider v-model:value="model.duration" :step="1" />
+
+                <n-input-number
+                  :default-value="10"
+                  :min="10"
+                  :max="100"
+                  v-model:value="model.duration"
+                />
+              </n-space>
+            </n-form-item-gi>
+
             <n-gi>
               <n-button type="primary" @click="addToMongoDB(model)">
                 Salvar
@@ -105,14 +120,6 @@
         </n-space>
       </div>
     </n-gi>
-
-    <n-gi span="2">
-      <alert-message
-        :error="course.error"
-        :message="course.error"
-        type="success"
-      ></alert-message>
-    </n-gi>
   </n-grid>
 </template>
 
@@ -122,7 +129,6 @@ import { mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { useCourseStore } from '@/stores/challenges';
 import { defineComponent, ref } from 'vue';
-import AlertMessage from '@/components/ui/AlertMessage';
 import {
   NGrid,
   NGi,
@@ -138,7 +144,6 @@ import {
 
 export default defineComponent({
   components: {
-    AlertMessage,
     NGrid,
     NGi,
     NH2,
@@ -153,23 +158,23 @@ export default defineComponent({
   setup() {
     const formRef = ref(null);
     const user = useUserStore();
-    const course = useCourseStore();
+    const challenge = useCourseStore();
 
     return {
       user,
-      course,
+      challenge,
       formRef,
       languageOptions: LANGS,
       model: ref({
         question: '',
         answers: ['1', '2', '3'],
         difficulty: 1,
+        duration: 10,
       }),
     };
   },
   methods: {
-    // remover add
-    ...mapActions(useCourseStore, ['add', 'addToMongoDB']),
+    ...mapActions(useCourseStore, ['addToMongoDB']),
   },
   computed: {},
 });

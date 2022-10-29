@@ -134,7 +134,7 @@ export default defineComponent({
   },
   created() {
     this.$watch(
-      () => this.$route.params?.courseId,
+      () => this.$route.params?.challengeId,
       () => {
         if (this.$route.params.challengeId) {
           const cid = this.$route.params.challengeId;
