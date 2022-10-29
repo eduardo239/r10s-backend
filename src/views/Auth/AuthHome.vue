@@ -12,6 +12,7 @@
           <n-tab-pane name="signin" tab="Sign in">
             <sign-in></sign-in>
           </n-tab-pane>
+
           <n-tab-pane name="signup" tab="Sign up">
             <sign-up></sign-up>
           </n-tab-pane>

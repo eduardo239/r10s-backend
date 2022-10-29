@@ -10,37 +10,25 @@
       </router-link>
     </n-space>
     <n-space>
-      <router-link class="main-menu__button" to="/">
-        <n-button text type="primary"> Home </n-button>
+      <router-link to="/">
+        <n-button text type="primary"> HOME </n-button>
       </router-link>
 
-      <router-link class="main-menu__button" :to="`/challenges`">
-        <n-button text type="primary"> Challenges </n-button>
+      <router-link :to="`/challenges`">
+        <n-button text type="primary"> CHALLENGES </n-button>
       </router-link>
 
-      <router-link
-        class="main-menu__button"
-        v-if="!user.loggedIn"
-        :to="`/auth`"
-      >
-        <n-button text type="primary"> Auth </n-button>
+      <router-link v-if="!user.loggedIn" :to="`/auth`">
+        <n-button text type="primary"> AUTH </n-button>
       </router-link>
 
-      <router-link
-        v-if="user.loggedIn"
-        class="main-menu__button"
-        :to="`/admin/all`"
-      >
-        <n-button text type="error"> Admin </n-button>
+      <router-link v-if="user.loggedIn" :to="`/admin/all`">
+        <n-button text type="error"> ADMIN </n-button>
       </router-link>
     </n-space>
     <!--  -->
     <n-space>
-      <router-link
-        class="main-menu__button"
-        v-if="user.loggedIn"
-        :to="`/profile/${user.user.uid}`"
-      >
+      <router-link v-if="user.loggedIn" :to="`/profile/${user.user.uid}`">
         <n-avatar
           round
           size="small"

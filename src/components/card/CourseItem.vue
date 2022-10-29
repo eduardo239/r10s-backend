@@ -1,46 +1,36 @@
 <template>
   <n-list-item style="margin-bottom: 1px" class="item-container">
     <n-thing>
-      <template #description>
-        <n-space size="small" style="margin-top: 4px">
-          <n-tag
-            :bordered="false"
-            type="info"
-            size="small"
-            :class="[
-              course.language === JAVA ? 'tag-red' : '',
-              course.language === JAVASCRIPT ? 'tag-yellow' : '',
-              course.language === CPP ? 'tag-blue' : '',
-              course.language === PYTHON ? 'tag-green' : '',
-              'tag',
-            ]"
-          >
-            {{ course.language }}</n-tag
-          >
-
-          <router-link :to="`/challenge-description/${course._id}`">
-            <n-button type="primary">View More</n-button>
-          </router-link>
-        </n-space>
+      <template #header> {{ course.language }} </template>
+      {{ slicedQuestion }}
+      <template #action>
+        <router-link :to="`/challenge-description/${course._id}`">
+          <n-button size="small">
+            <template #icon>
+              <n-icon><arrow-right /></n-icon>
+            </template>
+            View More
+          </n-button>
+        </router-link>
       </template>
-      {{ sliceWord }}
     </n-thing>
   </n-list-item>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
-import { NListItem, NSpace, NTag, NButton, NThing } from 'naive-ui';
+import { NListItem, NButton, NThing } from 'naive-ui';
 import { JAVA, PYTHON, JAVASCRIPT, CPP } from '@/helpers/constants';
+import { ArrowRight } from '@vicons/carbon';
 
 export default defineComponent({
-  components: { NListItem, NSpace, NTag, NButton, NThing },
+  components: { NListItem, NButton, NThing, ArrowRight },
   setup() {
     return { JAVA, PYTHON, JAVASCRIPT, CPP };
   },
   props: ['course'],
   computed: {
-    sliceWord() {
+    slicedQuestion() {
       let s = 37;
       let q = this.course.question;
       if (q.length > s) return q.slice(0, s) + ' ...';

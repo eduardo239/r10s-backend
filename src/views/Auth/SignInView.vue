@@ -22,6 +22,8 @@
 
               <n-gi>
                 <n-button
+                  :disabled="user.loading"
+                  :loading="user.loading"
                   type="primary"
                   block
                   secondary

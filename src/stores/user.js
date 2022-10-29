@@ -13,12 +13,21 @@ const ENDPOINT = 'users';
 const ENDPOINT_UC = 'user-challenges';
 const ENDPOINT_U = 'users';
 
+const uri = {
+  API_USERS:
+    process.env.NODE_ENV !== 'production'
+      ? process.env.VUE_APP_NOT_MONGODB_URI_USERS
+      : process.env.VUE_APP_NOT_LOCAL_URI_USERS,
+};
+
 export const useUserStore = defineStore('user', {
   state: () => ({
     user: null,
     users: [],
     loggedIn: false,
+    isAdmin: false,
     error: '',
+    loading: false,
     userCompletedChallenges: [],
     alreadyFinished: false,
   }),
@@ -31,6 +40,11 @@ export const useUserStore = defineStore('user', {
     },
     isUserLoggedIn(state) {
       return state.loggedIn;
+    },
+    isUserAdmin(state) {
+      console.log(state);
+      console.log(state.user);
+      return true;
     },
     getTotalCompletedChallenges(state) {
       return state.userCompletedChallenges.length || 0;
@@ -57,7 +71,9 @@ export const useUserStore = defineStore('user', {
   actions: {
     async signIn(data) {
       this.error = '';
-      const response = await axios.get(`${LOCALDB_URI}${ENDPOINT}`, data);
+      this.loading = true;
+
+      const response = await axios.get(`${uri.API_USERS}`, data);
       const _user = response.data.filter((user) => user.email === data.email);
 
       if (_user.length > 0) {
@@ -67,20 +83,26 @@ export const useUserStore = defineStore('user', {
         this.user = null;
         this.error = 'Failed to login';
       }
+      this.loading = false;
     },
     async signUp(data) {
       this.error = '';
+      this.loading = true;
       try {
         await axios.post(`${LOCALDB_URI}users`, data);
       } catch (error) {
         this.error = error;
+      } finally {
+        this.loading = false;
       }
     },
     // signup firebase
     async signUpFirebase({ email, password, name, terms }) {
       this.error = '';
+      this.loading = true;
       if (!terms) {
         this.error = 'You must accept the terms';
+        this.loading = false;
         return;
       }
 
@@ -109,11 +131,14 @@ export const useUserStore = defineStore('user', {
         }
       } catch (error) {
         this.error = error.message;
+      } finally {
+        this.loading = false;
       }
     },
     // signin firebase
     async signInFirebase({ email, password }) {
       this.error = '';
+      this.loading = true;
       try {
         const response = await signInWithEmailAndPassword(
           auth,
@@ -128,6 +153,8 @@ export const useUserStore = defineStore('user', {
         }
       } catch (error) {
         this.error = error.message;
+      } finally {
+        this.loading = false;
       }
     },
     // logout firebase
@@ -155,47 +182,47 @@ export const useUserStore = defineStore('user', {
       }
     },
 
-    async getUsers() {
-      try {
-        const response = await axios.get(`${LOCALDB_URI}users`);
-        this.users = response.data;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    async getUserById(id) {
-      const response = await axios.get(`${LOCALDB_URI}${ENDPOINT}`);
-      const _user = response.data.filter((user) => user.id === id);
+    // async getUsers() {
+    //   try {
+    //     const response = await axios.get(`${LOCALDB_URI}users`);
+    //     this.users = response.data;
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
+    // async getUserById(id) {
+    //   const response = await axios.get(`${LOCALDB_URI}${ENDPOINT}`);
+    //   const _user = response.data.filter((user) => user.id === id);
 
-      if (_user.length > 0) {
-        this.user = _user[0];
+    //   if (_user.length > 0) {
+    //     this.user = _user[0];
 
-        try {
-          const response = await axios.get(`${LOCALDB_URI}${ENDPOINT}`);
-          this.users = response.data;
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    },
-    async updateUserById(id, data) {
-      await this.getUserById(id);
+    //     try {
+    //       const response = await axios.get(`${LOCALDB_URI}${ENDPOINT}`);
+    //       this.users = response.data;
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   }
+    // },
+    // async updateUserById(id, data) {
+    //   await this.getUserById(id);
 
-      try {
-        const response = await axios.put(
-          `${LOCALDB_URI}${ENDPOINT}/${id}`,
-          data
-        );
-        const status = response.status;
+    //   try {
+    //     const response = await axios.put(
+    //       `${LOCALDB_URI}${ENDPOINT}/${id}`,
+    //       data
+    //     );
+    //     const status = response.status;
 
-        if (status === 200) {
-          this.getUsers();
-          this.user = response.data;
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    //     if (status === 200) {
+    //       this.getUsers();
+    //       this.user = response.data;
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
     // LOG OUT
     logout() {
       this.user = null;
